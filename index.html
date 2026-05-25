@@ -386,8 +386,8 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close
 
 async function refresh() {
   try {
-    var url = 'https://api.github.com/repos/kumakunna/hoperion/contents/data/players.json';
-    var res = await fetch(url, { headers: { 'Accept': 'application/vnd.github.v3.raw' }, cache: 'no-store' });
+    var url = 'https://raw.githubusercontent.com/kumakunna/hoperion/main/data/players.json?t=' + Date.now();
+    var res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return;
     var d = await res.json();
     gData = d;
@@ -396,7 +396,7 @@ async function refresh() {
 }
 
 refresh();
-setInterval(refresh, 10000);
+setInterval(refresh, 60000);
 </script>
 </body>
 </html>
