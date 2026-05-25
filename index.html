@@ -55,7 +55,7 @@ header{
 }
 .hero::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 60%,rgba(68,238,136,0.03) 0%,transparent 70%);
+  background:rgba(0,0,0,0.2);
   pointer-events:none;
 }
 .hero-logo{
@@ -281,10 +281,17 @@ footer{
 </header>
 
 <!-- ヒーロー -->
-<div class="hero" style="padding-top:56px;">
+<div class="hero" style="padding-top:56px;background-image:url('https://raw.githubusercontent.com/kumakunna/hoperion/main/Hoperion.png');background-size:cover;background-position:center;">
+  <!-- 四隅のテキスト -->
+  <div style="position:absolute;top:80px;left:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">MULTIPLAYER</div>
+  <div style="position:absolute;top:80px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">MINECRAFT</div>
+  <div style="position:absolute;top:80px;right:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">ZOMBIE SURVIVAL</div>
+  <div style="position:absolute;bottom:40px;left:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">50DAYS</div>
+  <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">KUMAKUNN PRESENTS</div>
+  <div style="position:absolute;bottom:40px;right:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">THE LAST ONE</div>
   <div class="hero-logo">HOPERION</div>
   <div class="hero-sub">All for the sake of one promise.</div>
-  <div class="hero-scroll">SCROLL ↓</div>
+  <div style="width:500px;height:1px;background:rgba(255,255,255,0.3);margin-top:16px;"></div>
 </div>
 
 <!-- ライブステータス -->
