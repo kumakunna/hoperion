@@ -7,291 +7,157 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #0a0a0a;
-  --bg2:     #111;
-  --bg3:     #1a1a1a;
-  --border:  #252525;
-  --text:    #e8e8e8;
-  --muted:   #555;
-  --green:   #44ee88;
-  --red:     #ff4444;
-  --yellow:  #ffcc44;
-  --orange:  #ff8844;
-  --blue:    #4488ff;
+  --bg:     #0a0a0a;
+  --bg2:    #111;
+  --bg3:    #1a1a1a;
+  --border: #252525;
+  --text:   #e8e8e8;
+  --muted:  #555;
+  --green:  #44ee88;
+  --red:    #ff4444;
+  --yellow: #ffcc44;
+  --orange: #ff8844;
 }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Noto Sans JP',sans-serif; min-height:100vh; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Noto Sans JP', sans-serif;
-  min-height: 100vh;
-}
-
-/* ===== ヘッダー ===== */
 header {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(10,10,10,0.95);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 40px; height: 64px;
+  position:sticky; top:0; z-index:100;
+  background:rgba(10,10,10,0.95);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:64px;
 }
-.logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px; letter-spacing: 4px;
-  color: #fff;
+.logo { font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:4px; }
+nav { display:flex; gap:32px; }
+nav button {
+  background:none; border:none; color:var(--muted);
+  font-size:14px; letter-spacing:2px; font-weight:500;
+  cursor:pointer; transition:color 0.2s; font-family:'Noto Sans JP',sans-serif;
+  padding:4px 0;
 }
-nav { display: flex; gap: 32px; }
-nav a {
-  color: var(--muted); text-decoration: none;
-  font-size: 14px; letter-spacing: 2px; font-weight: 500;
-  transition: color 0.2s;
-}
-nav a:hover, nav a.active { color: #fff; }
+nav button:hover { color:#fff; }
+nav button.active { color:#fff; border-bottom:2px solid #fff; }
 
-/* ===== ステータスバー ===== */
 #status-bar {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  padding: 10px 40px;
-  display: flex; align-items: center; gap: 24px;
-  font-size: 13px; flex-wrap: wrap;
+  background:var(--bg2); border-bottom:1px solid var(--border);
+  padding:10px 40px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
 }
-.status-chip {
-  display: flex; align-items: center; gap: 6px;
-  padding: 4px 12px; border-radius: 20px;
-  font-weight: 700; font-size: 13px; letter-spacing: 1px;
+.chip {
+  padding:4px 12px; border-radius:20px;
+  font-size:13px; font-weight:700; letter-spacing:1px;
 }
-.chip-online   { background: rgba(68,238,136,0.12); border: 1px solid rgba(68,238,136,0.4); color: var(--green); }
-.chip-offline  { background: rgba(80,80,80,0.2); border: 1px solid #333; color: var(--muted); }
-.chip-day      { background: rgba(255,204,68,0.1); border: 1px solid rgba(255,204,68,0.3); color: var(--yellow); }
-.chip-day.red  { background: rgba(255,68,68,0.1); border-color: rgba(255,68,68,0.3); color: var(--red); }
-.chip-pvp      { background: rgba(255,68,68,0.1); border: 1px solid rgba(255,68,68,0.3); color: var(--red); }
-.chip-pvp.off  { background: rgba(80,80,80,0.2); border-color: #333; color: var(--muted); }
-.chip-event    { background: rgba(255,136,68,0.1); border: 1px solid rgba(255,136,68,0.3); color: var(--orange); }
-.status-counts { margin-left: auto; color: var(--muted); font-size: 13px; }
-.s-alive  { color: var(--green); font-weight: 700; }
-.s-zombie { color: var(--red);   font-weight: 700; }
-.s-dead   { color: var(--muted); }
+.chip-online  { background:rgba(68,238,136,0.12); border:1px solid rgba(68,238,136,0.4); color:var(--green); }
+.chip-offline { background:rgba(80,80,80,0.2); border:1px solid #333; color:var(--muted); }
+.chip-day     { background:rgba(255,255,255,0.05); border:1px solid #333; color:#fff; }
+.chip-day.r   { background:rgba(255,68,68,0.1); border-color:rgba(255,68,68,0.3); color:var(--red); }
+.chip-day.y   { background:rgba(255,204,68,0.1); border-color:rgba(255,204,68,0.3); color:var(--yellow); }
+.chip-pvp     { background:rgba(255,68,68,0.1); border:1px solid rgba(255,68,68,0.3); color:var(--red); }
+.chip-pvp.off { background:rgba(80,80,80,0.2); border-color:#333; color:var(--muted); }
+.chip-ev      { background:rgba(255,136,68,0.1); border:1px solid rgba(255,136,68,0.3); color:var(--orange); }
+.counts { margin-left:auto; font-size:13px; }
+.cs { color:var(--green); font-weight:700; }
+.cz { color:var(--red);   font-weight:700; }
+.cd { color:var(--muted); }
 
-/* ===== メインコンテンツ ===== */
-main { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+main { max-width:1100px; margin:0 auto; padding:40px 24px; }
 
-/* ===== ホーム ===== */
-#page-home {}
-
-.hero {
-  text-align: center; padding: 80px 0 60px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 48px;
-}
+/* ホーム */
+.hero { text-align:center; padding:70px 0 50px; border-bottom:1px solid var(--border); margin-bottom:40px; }
 .hero-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(80px, 12vw, 160px);
-  letter-spacing: 8px; line-height: 1;
-  background: linear-gradient(135deg, #fff 40%, #888);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,12vw,160px); letter-spacing:8px; line-height:1;
+  background:linear-gradient(135deg,#fff 40%,#666);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
 }
-.hero-sub {
-  margin-top: 16px; color: var(--muted);
-  font-size: 15px; letter-spacing: 4px; font-weight: 500;
+.hero-sub { margin-top:12px; color:var(--muted); font-size:14px; letter-spacing:4px; }
+
+.sec-title {
+  font-size:11px; letter-spacing:3px; color:var(--muted); font-weight:500;
+  margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border);
 }
 
-.info-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px; margin-bottom: 48px;
-}
-.info-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 4px; padding: 24px;
-}
-.info-card h3 {
-  font-size: 12px; letter-spacing: 3px; color: var(--muted);
-  font-weight: 500; margin-bottom: 12px;
-}
-.info-card .val {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 52px; line-height: 1;
-}
-.val-green  { color: var(--green); }
-.val-red    { color: var(--red); }
-.val-yellow { color: var(--yellow); }
-.val-white  { color: #fff; }
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:40px; }
+.stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:20px; }
+.stat-card h3 { font-size:11px; letter-spacing:2px; color:var(--muted); margin-bottom:8px; }
+.stat-card .n { font-family:'Bebas Neue',sans-serif; font-size:52px; line-height:1; }
+.n-w { color:#fff; }
+.n-g { color:var(--green); }
+.n-r { color:var(--red); }
 
-.section-title {
-  font-size: 12px; letter-spacing: 3px; color: var(--muted);
-  font-weight: 500; margin-bottom: 16px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+.ev-section { margin-bottom:40px; }
+.ev-list { display:flex; flex-direction:column; gap:6px; }
+.ev-row {
+  background:var(--bg2); border:1px solid var(--border); border-radius:3px;
+  padding:10px 16px; display:flex; justify-content:space-between; align-items:center;
 }
+.ev-row.sp { border-left:3px solid var(--orange); }
+.ev-name { font-size:15px; font-weight:700; }
+.ev-name.sp { color:var(--orange); }
+.ev-time { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--yellow); }
 
-/* ===== プレイヤーリスト ===== */
-#page-players { display: none; }
+/* プレイヤーグリッド */
+.player-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+.pc {
+  background:var(--bg2); border:1px solid var(--border); border-radius:4px;
+  padding:18px; cursor:pointer; transition:border-color 0.2s;
+  position:relative; overflow:hidden;
+}
+.pc::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
+.pc.alive::before   { background:var(--green); }
+.pc.zombie::before  { background:var(--red); }
+.pc.down::before    { background:var(--yellow); }
+.pc.dead::before    { background:#2a2a2a; }
+.pc:hover { border-color:#3a3a3a; }
 
-.player-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
-}
+.pc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.badge { font-size:11px; font-weight:700; letter-spacing:2px; padding:3px 8px; border-radius:2px; }
+.b-alive  { background:rgba(68,238,136,0.15); color:var(--green); }
+.b-zombie { background:rgba(255,68,68,0.15);  color:var(--red); }
+.b-down   { background:rgba(255,204,68,0.15); color:var(--yellow); }
+.b-dead   { background:rgba(50,50,50,0.5);    color:var(--muted); }
+.online-dot { width:6px; height:6px; border-radius:50%; display:inline-block; margin-right:4px; }
+.on  { background:var(--green); }
+.off { background:var(--muted); }
 
-.player-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 4px; padding: 20px;
-  cursor: pointer; transition: border-color 0.2s, background 0.2s;
-  position: relative; overflow: hidden;
-}
-.player-card::before {
-  content: ''; position: absolute;
-  left: 0; top: 0; bottom: 0; width: 3px;
-}
-.player-card.alive::before   { background: var(--green); }
-.player-card.zombie::before  { background: var(--red); }
-.player-card.down::before    { background: var(--yellow); }
-.player-card.dead::before    { background: #2a2a2a; }
+.pc-name { font-weight:900; font-size:20px; margin-bottom:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pc-name.dead { color:var(--muted); }
 
-.player-card:hover {
-  border-color: #3a3a3a; background: #161616;
-}
+.pc-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:10px; }
+.ps { text-align:center; }
+.ps-l { font-size:10px; color:var(--muted); letter-spacing:1px; }
+.ps-v { font-family:'Bebas Neue',sans-serif; font-size:26px; line-height:1.1; }
 
-.card-top {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 12px;
-}
-.card-badge {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px;
-  padding: 3px 8px; border-radius: 2px;
-}
-.badge-alive   { background: rgba(68,238,136,0.15); color: var(--green); }
-.badge-zombie  { background: rgba(255,68,68,0.15);  color: var(--red); }
-.badge-down    { background: rgba(255,204,68,0.15); color: var(--yellow); animation: blink 1s infinite; }
-.badge-dead    { background: rgba(50,50,50,0.5);    color: var(--muted); }
-@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+.life-row { display:flex; gap:4px; }
+.ld     { width:8px; height:8px; border-radius:50%; background:var(--green); }
+.ld.off { background:#2a2a2a; }
 
-.card-online {
-  font-size: 11px; font-weight: 500;
-  display: flex; align-items: center; gap: 4px;
+/* モーダル */
+#overlay {
+  display:none; position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,0.85); align-items:center; justify-content:center;
 }
-.dot-on  { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-.dot-off { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
-
-.card-name {
-  font-weight: 900; font-size: 22px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  margin-bottom: 14px;
-}
-.card-name.dead { color: var(--muted); }
-
-.card-stats {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-}
-.stat-item { text-align: center; }
-.stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
-.stat-val {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px; line-height: 1.1;
-}
-
-.life-dots { display: flex; gap: 4px; justify-content: center; margin-top: 2px; }
-.life-dot     { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
-.life-dot.off { background: #2a2a2a; }
-
-/* ===== 詳細モーダル ===== */
-#modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 200;
-  background: rgba(0,0,0,0.85);
-  align-items: center; justify-content: center;
-}
-#modal-overlay.show { display: flex; }
-
+#overlay.show { display:flex; }
 #modal {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 4px; width: 90%; max-width: 560px;
-  max-height: 90vh; overflow-y: auto;
-  animation: fadeIn 0.2s ease;
+  background:var(--bg2); border:1px solid var(--border); border-radius:4px;
+  width:90%; max-width:520px; max-height:90vh; overflow-y:auto;
+  animation:fi 0.2s ease;
 }
-@keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fi { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.mh { display:flex; justify-content:space-between; align-items:flex-start; padding:24px 24px 0; }
+.mn { font-weight:900; font-size:36px; line-height:1; }
+.mc { background:none; border:none; color:var(--muted); font-size:22px; cursor:pointer; }
+.ms { padding:6px 24px 16px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:4px; }
+.mb { padding:0 24px 24px; }
+.ms-sec { margin-bottom:20px; }
+.ms-title { font-size:11px; letter-spacing:2px; color:var(--muted); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.ms-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.ms-item { background:var(--bg3); border-radius:3px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; }
+.ms-label { font-size:13px; color:var(--muted); }
+.ms-val { font-family:'Bebas Neue',sans-serif; font-size:26px; }
 
-.modal-header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  padding: 28px 28px 0;
-}
-.modal-name {
-  font-weight: 900; font-size: 40px; line-height: 1;
-}
-.modal-close {
-  background: none; border: none; color: var(--muted);
-  font-size: 24px; cursor: pointer; padding: 4px 8px;
-  transition: color 0.2s;
-}
-.modal-close:hover { color: #fff; }
-
-.modal-status {
-  padding: 8px 28px 20px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px; letter-spacing: 4px;
-}
-
-.modal-body { padding: 0 28px 28px; }
-
-.modal-section {
-  margin-bottom: 24px;
-}
-.modal-section-title {
-  font-size: 11px; letter-spacing: 3px; color: var(--muted);
-  font-weight: 500; margin-bottom: 12px; padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
-.modal-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.modal-stat {
-  background: var(--bg3); border-radius: 3px;
-  padding: 12px 16px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.modal-stat-label { font-size: 13px; color: var(--muted); }
-.modal-stat-val {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px; line-height: 1;
-}
-
-/* ===== イベントリスト ===== */
-.event-list { display: flex; flex-direction: column; gap: 6px; }
-.event-item {
-  background: var(--bg3); border-radius: 3px;
-  padding: 10px 16px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.event-name { font-size: 15px; font-weight: 700; }
-.event-time {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px; color: var(--yellow);
-}
-.event-sp { color: var(--orange); border-left: 3px solid var(--orange); }
-
-/* ===== 更新時刻 ===== */
-#last-updated {
-  text-align: right; font-size: 12px; color: var(--muted);
-  padding: 8px 40px;
-}
-
-/* ===== オフライン ===== */
-.offline-banner {
-  background: rgba(80,80,80,0.1); border: 1px solid #2a2a2a;
-  border-radius: 4px; padding: 16px 24px; margin-bottom: 24px;
-  color: var(--muted); font-size: 14px; text-align: center;
-}
-
-/* ===== フッター ===== */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 24px 40px; text-align: center;
-  color: var(--muted); font-size: 12px; letter-spacing: 2px;
-}
+#last { text-align:right; font-size:12px; color:var(--muted); padding:8px 40px; }
+footer { border-top:1px solid var(--border); padding:20px 40px; text-align:center; color:var(--muted); font-size:12px; letter-spacing:2px; }
 </style>
 </head>
 <body>
@@ -299,119 +165,79 @@ footer {
 <header>
   <div class="logo">HOPERION</div>
   <nav>
-    <a id="nav-home" href="javascript:void(0)" class="active" onclick="switchPage('home')">HOME</a>
-    <a id="nav-players" href="javascript:void(0)" onclick="switchPage('players')">PLAYERS</a>
+    <button id="btn-home"    class="active" onclick="showPage('home')">HOME</button>
+    <button id="btn-players" onclick="showPage('players')">PLAYERS</button>
   </nav>
 </header>
 
 <div id="status-bar">
-  <div id="chip-server" class="status-chip chip-offline">● OFFLINE</div>
-  <div id="chip-day"    class="status-chip chip-day">DAY 1</div>
-  <div id="chip-pvp"    class="status-chip chip-pvp">PVP ON</div>
-  <div id="chip-event"  class="status-chip chip-event" style="display:none">⚡ EVENT</div>
-  <div class="status-counts">
-    <span class="s-alive"  id="cnt-alive">0</span> 生存　
-    <span class="s-zombie" id="cnt-zombie">0</span> ゾンビ　
-    <span class="s-dead"   id="cnt-dead">0</span> 脱落
-  </div>
+  <span id="chip-sv" class="chip chip-offline">○ OFFLINE</span>
+  <span id="chip-day" class="chip chip-day">DAY 1</span>
+  <span id="chip-pvp" class="chip chip-pvp">PVP ON</span>
+  <span id="chip-ev" class="chip chip-ev" style="display:none">⚡ EVENT</span>
+  <span class="counts">
+    <span class="cs" id="c-s">0</span> 生存　
+    <span class="cz" id="c-z">0</span> ゾンビ　
+    <span class="cd" id="c-d">0</span> 脱落
+  </span>
 </div>
 
-<main>
-  <!-- ホーム -->
-  <div id="page-home">
-    <div class="hero">
-      <div class="hero-logo">HOPERION</div>
-      <div class="hero-sub">ZOMBIE SURVIVAL — 50 DAYS</div>
-    </div>
-
-    <div class="info-grid">
-      <div class="info-card">
-        <h3>CURRENT DAY</h3>
-        <div class="val val-white" id="home-day">—</div>
-      </div>
-      <div class="info-card">
-        <h3>SURVIVORS</h3>
-        <div class="val val-green" id="home-survivors">—</div>
-      </div>
-      <div class="info-card">
-        <h3>ZOMBIES</h3>
-        <div class="val val-red" id="home-zombies">—</div>
-      </div>
-      <div class="info-card">
-        <h3>ELIMINATED</h3>
-        <div class="val val-white" id="home-eliminated">—</div>
-      </div>
-    </div>
-
-    <div id="home-events-section" style="display:none; margin-bottom:48px;">
-      <div class="section-title">ACTIVE EVENTS</div>
-      <div class="event-list" id="home-event-list"></div>
-    </div>
-
-    <div>
-      <div class="section-title">PLAYERS</div>
-      <div class="player-grid" id="home-player-grid"></div>
-    </div>
+<!-- ホーム -->
+<main id="page-home">
+  <div class="hero">
+    <div class="hero-logo">HOPERION</div>
+    <div class="hero-sub">ZOMBIE SURVIVAL — 50 DAYS</div>
   </div>
 
-  <!-- プレイヤーリスト -->
-  <div id="page-players">
-    <div class="section-title" style="margin-bottom:24px;">ALL PLAYERS</div>
-    <div class="player-grid" id="players-grid"></div>
+  <div class="stats-row">
+    <div class="stat-card"><h3>CURRENT DAY</h3><div class="n n-w" id="h-day">—</div></div>
+    <div class="stat-card"><h3>SURVIVORS</h3><div class="n n-g" id="h-sv">—</div></div>
+    <div class="stat-card"><h3>ZOMBIES</h3><div class="n n-r" id="h-zb">—</div></div>
+    <div class="stat-card"><h3>ELIMINATED</h3><div class="n n-w" id="h-el">—</div></div>
   </div>
+
+  <div id="ev-section" class="ev-section" style="display:none">
+    <div class="sec-title">ACTIVE EVENTS</div>
+    <div class="ev-list" id="ev-list"></div>
+  </div>
+
+  <div class="sec-title">PLAYERS</div>
+  <div class="player-grid" id="home-grid"></div>
 </main>
 
-<div id="last-updated">—</div>
+<!-- プレイヤーリスト -->
+<main id="page-players" style="display:none">
+  <div class="sec-title" style="margin-bottom:24px">ALL PLAYERS</div>
+  <div class="player-grid" id="players-grid"></div>
+</main>
 
-<footer>
-  HOPERION &nbsp;·&nbsp; &copy; 2026 kumakunna
-</footer>
+<div id="last">—</div>
+<footer>HOPERION · © 2026 kumakunna</footer>
 
-<!-- 詳細モーダル -->
-<div id="modal-overlay" onclick="closeModal(event)">
+<!-- モーダル -->
+<div id="overlay" onclick="closeModal(event)">
   <div id="modal">
-    <div class="modal-header">
-      <div class="modal-name" id="modal-name">—</div>
-      <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="mh">
+      <div class="mn" id="m-name">—</div>
+      <button class="mc" onclick="closeModal()">×</button>
     </div>
-    <div class="modal-status" id="modal-status"></div>
-    <div class="modal-body">
-      <div class="modal-section">
-        <div class="modal-section-title">COMBAT</div>
-        <div class="modal-grid">
-          <div class="modal-stat">
-            <span class="modal-stat-label">Kill</span>
-            <span class="modal-stat-val" id="md-kill">—</span>
-          </div>
-          <div class="modal-stat">
-            <span class="modal-stat-label">Death</span>
-            <span class="modal-stat-val" id="md-death">—</span>
-          </div>
-          <div class="modal-stat">
-            <span class="modal-stat-label">ZombieKill</span>
-            <span class="modal-stat-val" id="md-zkill">—</span>
-          </div>
-          <div class="modal-stat">
-            <span class="modal-stat-label">Point</span>
-            <span class="modal-stat-val" id="md-point">—</span>
-          </div>
+    <div class="ms" id="m-status"></div>
+    <div class="mb">
+      <div class="ms-sec">
+        <div class="ms-title">COMBAT</div>
+        <div class="ms-grid">
+          <div class="ms-item"><span class="ms-label">Kill</span><span class="ms-val" id="m-kill">—</span></div>
+          <div class="ms-item"><span class="ms-label">Death</span><span class="ms-val" id="m-death">—</span></div>
+          <div class="ms-item"><span class="ms-label">ZombieKill</span><span class="ms-val" id="m-zk">—</span></div>
+          <div class="ms-item"><span class="ms-label">Point</span><span class="ms-val" id="m-pt">—</span></div>
         </div>
       </div>
-      <div class="modal-section">
-        <div class="modal-section-title">SURVIVAL</div>
-        <div class="modal-grid">
-          <div class="modal-stat">
-            <span class="modal-stat-label">Days Survived</span>
-            <span class="modal-stat-val" id="md-days">—</span>
-          </div>
-          <div class="modal-stat">
-            <span class="modal-stat-label">Life</span>
-            <div class="life-dots" id="md-life"></div>
-          </div>
-          <div class="modal-stat">
-            <span class="modal-stat-label">Plan Notes</span>
-            <span class="modal-stat-val" id="md-notes">—</span>
-          </div>
+      <div class="ms-sec">
+        <div class="ms-title">SURVIVAL</div>
+        <div class="ms-grid">
+          <div class="ms-item"><span class="ms-label">Days Survived</span><span class="ms-val" id="m-days">—</span></div>
+          <div class="ms-item"><span class="ms-label">Life</span><div class="life-row" id="m-life"></div></div>
+          <div class="ms-item"><span class="ms-label">Plan Notes</span><span class="ms-val" id="m-notes">—</span></div>
         </div>
       </div>
     </div>
@@ -419,204 +245,158 @@ footer {
 </div>
 
 <script>
-const DATA_URL = 'https://raw.githubusercontent.com/kumakunna/hoperion/main/data/players.json';
-let data = null;
-let currentPage = 'home';
+var gData = null;
+var gPage = 'home';
 
-// ===== ページ切替 =====
-function switchPage(page) {
-  currentPage = page;
-  document.getElementById('page-home').style.display    = page === 'home'    ? '' : 'none';
-  document.getElementById('page-players').style.display = page === 'players' ? '' : 'none';
-  document.getElementById('nav-home').className    = page === 'home'    ? 'active' : '';
-  document.getElementById('nav-players').className = page === 'players' ? 'active' : '';
-  if (data) {
-    document.getElementById('players-grid').innerHTML = (data.players || []).map(buildCard).join('');
-    renderPage(data);
-  } else {
-    refresh();
-  }
+function showPage(p) {
+  gPage = p;
+  document.getElementById('page-home').style.display    = p === 'home'    ? '' : 'none';
+  document.getElementById('page-players').style.display = p === 'players' ? '' : 'none';
+  document.getElementById('btn-home').className    = p === 'home'    ? 'active' : '';
+  document.getElementById('btn-players').className = p === 'players' ? 'active' : '';
+  if (gData) renderAll(gData);
 }
 
-function goto(page) { switchPage(page); }
-
-// ===== データ取得 =====
-async function fetchData() {
-  try {
-    const res = await fetch(DATA_URL + '?t=' + Date.now(), { cache: 'no-store' });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch(e) { return null; }
-}
-
-// ===== ステータスバー =====
-function renderStatusBar(d) {
-  const serverEl = document.getElementById('chip-server');
-  if (d.serverOnline) {
-    serverEl.className = 'status-chip chip-online';
-    serverEl.textContent = '● ONLINE';
-  } else {
-    serverEl.className = 'status-chip chip-offline';
-    serverEl.textContent = '○ OFFLINE';
-  }
-
-  const dayEl = document.getElementById('chip-day');
-  dayEl.textContent = 'DAY ' + d.day;
-  dayEl.className = 'status-chip chip-day' + (d.day >= 10 ? ' red' : '');
-
-  const pvpEl = document.getElementById('chip-pvp');
-  pvpEl.textContent = 'PVP ' + (d.pvpEnabled ? 'ON' : 'OFF');
-  pvpEl.className = 'status-chip chip-pvp' + (d.pvpEnabled ? '' : ' off');
-
-  const evEl = document.getElementById('chip-event');
-  const hasEv = d.specialEvent || (d.events && d.events.length > 0);
-  evEl.style.display = hasEv ? '' : 'none';
-  if (d.specialEvent) evEl.textContent = '⚡ ' + d.specialEvent;
-
-  document.getElementById('cnt-alive').textContent   = d.survivorCount;
-  document.getElementById('cnt-zombie').textContent  = d.zombieCount;
-  document.getElementById('cnt-dead').textContent    = d.eliminatedCount;
-}
-
-// ===== プレイヤーカード生成 =====
-function playerStatus(p) {
-  if (p.eliminated) return { cls: 'dead',   badge: 'dead',   label: 'DEFEATED' };
-  if (p.zombie)     return { cls: 'zombie', badge: 'zombie', label: 'ZOMBIE' };
-  if (p.down)       return { cls: 'down',   badge: 'down',   label: 'DOWN' };
-  return              { cls: 'alive',  badge: 'alive',  label: 'SURVIVOR' };
+function pst(p) {
+  if (p.eliminated) return {cls:'dead',   badge:'b-dead',   label:'DEFEATED', color:'var(--muted)'};
+  if (p.zombie)     return {cls:'zombie', badge:'b-zombie', label:'ZOMBIE',   color:'var(--red)'};
+  if (p.down)       return {cls:'down',   badge:'b-down',   label:'DOWN',     color:'var(--yellow)'};
+  return                   {cls:'alive',  badge:'b-alive',  label:'SURVIVOR', color:'var(--green)'};
 }
 
 function buildCard(p) {
-  const st = playerStatus(p);
-  const dots = [0,1,2].map(i =>
-    '<div class="life-dot' + (i < p.respawn ? '' : ' off') + '"></div>'
-  ).join('');
-  return `<div class="player-card ${st.cls}" onclick="showDetail('${p.name}')">
-    <div class="card-top">
-      <div class="card-badge badge-${st.badge}">${st.label}</div>
-      <div class="card-online">
-        <div class="${p.online ? 'dot-on' : 'dot-off'}"></div>
-        <span style="color:${p.online ? 'var(--green)' : 'var(--muted)'};font-size:11px">
-          ${p.online ? 'ONLINE' : 'offline'}
-        </span>
-      </div>
-    </div>
-    <div class="card-name ${p.eliminated ? 'dead' : ''}">${p.name}</div>
-    <div class="card-stats">
-      <div class="stat-item">
-        <div class="stat-label">KILL</div>
-        <div class="stat-val">${p.kills}</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">DAYS</div>
-        <div class="stat-val">${p.survivedDays}</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">PT</div>
-        <div class="stat-val">${p.points}</div>
-      </div>
-    </div>
-    <div class="life-dots" style="margin-top:12px;">${dots}</div>
-  </div>`;
+  var s = pst(p);
+  var dots = '';
+  for (var i = 0; i < 3; i++) dots += '<div class="ld' + (i < p.respawn ? '' : ' off') + '"></div>';
+  var onColor = p.online ? 'var(--green)' : 'var(--muted)';
+  var onText  = p.online ? 'ONLINE' : 'offline';
+  var onCls   = p.online ? 'on' : 'off';
+  return '<div class="pc ' + s.cls + '" onclick="openModal(\'' + p.name.replace(/'/g, "\\'") + '\')">' +
+    '<div class="pc-top">' +
+      '<div class="badge ' + s.badge + '">' + s.label + '</div>' +
+      '<div style="font-size:11px;color:' + onColor + '"><span class="online-dot ' + onCls + '"></span>' + onText + '</div>' +
+    '</div>' +
+    '<div class="pc-name' + (p.eliminated ? ' dead' : '') + '">' + p.name + '</div>' +
+    '<div class="pc-stats">' +
+      '<div class="ps"><div class="ps-l">KILL</div><div class="ps-v">' + p.kills + '</div></div>' +
+      '<div class="ps"><div class="ps-l">DAYS</div><div class="ps-v">' + p.survivedDays + '</div></div>' +
+      '<div class="ps"><div class="ps-l">PT</div><div class="ps-v">' + p.points + '</div></div>' +
+    '</div>' +
+    '<div class="life-row">' + dots + '</div>' +
+  '</div>';
 }
 
-// ===== イベントリスト =====
-function buildEventList(d) {
-  const items = [];
-  if (d.specialEvent) {
-    items.push(`<div class="event-item event-sp">
-      <span class="event-name">⚡ ${d.specialEvent}</span>
-      <span class="event-time">SPECIAL</span>
-    </div>`);
-  }
-  if (d.events) {
-    for (const e of d.events) {
-      const parts = e.split(' ');
-      const name = parts.slice(0, -1).join(' ') || e;
-      const time = parts.length > 1 ? parts[parts.length - 1] : '';
-      items.push(`<div class="event-item">
-        <span class="event-name">${name}</span>
-        <span class="event-time">${time}</span>
-      </div>`);
+function renderAll(d) {
+  // ステータスバー
+  var sv = document.getElementById('chip-sv');
+  sv.textContent = d.serverOnline ? '● ONLINE' : '○ OFFLINE';
+  sv.className   = 'chip ' + (d.serverOnline ? 'chip-online' : 'chip-offline');
+
+  var dayEl = document.getElementById('chip-day');
+  dayEl.textContent = 'DAY ' + d.day;
+  dayEl.className   = 'chip chip-day' + (d.day >= 25 ? ' y' : d.day >= 10 ? ' r' : '');
+
+  var pvpEl = document.getElementById('chip-pvp');
+  pvpEl.textContent = 'PVP ' + (d.pvpEnabled ? 'ON' : 'OFF');
+  pvpEl.className   = 'chip chip-pvp' + (d.pvpEnabled ? '' : ' off');
+
+  var hasEv = d.specialEvent || (d.events && d.events.length > 0);
+  var evChip = document.getElementById('chip-ev');
+  evChip.style.display = hasEv ? '' : 'none';
+  if (d.specialEvent) evChip.textContent = '⚡ ' + d.specialEvent;
+
+  document.getElementById('c-s').textContent = d.survivorCount;
+  document.getElementById('c-z').textContent = d.zombieCount;
+  document.getElementById('c-d').textContent = d.eliminatedCount;
+
+  // ホーム数字
+  document.getElementById('h-day').textContent = d.day;
+  document.getElementById('h-sv').textContent  = d.survivorCount;
+  document.getElementById('h-zb').textContent  = d.zombieCount;
+  document.getElementById('h-el').textContent  = d.eliminatedCount;
+
+  // イベントリスト
+  var evSec = document.getElementById('ev-section');
+  var evList = document.getElementById('ev-list');
+  if (hasEv) {
+    evSec.style.display = '';
+    var html = '';
+    if (d.specialEvent) {
+      html += '<div class="ev-row sp"><span class="ev-name sp">⚡ ' + d.specialEvent + '</span><span class="ev-time">SPECIAL</span></div>';
     }
-  }
-  return items.join('');
-}
-
-// ===== ページ描画 =====
-function renderPage(d) {
-  if (currentPage === 'home') {
-    document.getElementById('home-day').textContent       = d.day;
-    document.getElementById('home-survivors').textContent = d.survivorCount;
-    document.getElementById('home-zombies').textContent   = d.zombieCount;
-    document.getElementById('home-eliminated').textContent= d.eliminatedCount;
-
-    const hasEv = d.specialEvent || (d.events && d.events.length > 0);
-    document.getElementById('home-events-section').style.display = hasEv ? '' : 'none';
-    if (hasEv) document.getElementById('home-event-list').innerHTML = buildEventList(d);
-
-    const grid = document.getElementById('home-player-grid');
-    grid.innerHTML = d.players.map(buildCard).join('');
+    if (d.events && d.events.length) {
+      for (var i = 0; i < d.events.length; i++) {
+        var ev = d.events[i];
+        var nm = ev.name || ev;
+        var sc = ev.remainingSec;
+        var tm = '';
+        if (typeof sc === 'number' && sc >= 0) {
+          tm = sc < 60 ? sc + 's' : Math.floor(sc/60) + 'm' + String(sc%60).padStart(2,'0') + 's';
+        }
+        html += '<div class="ev-row"><span class="ev-name">' + nm + '</span><span class="ev-time">' + tm + '</span></div>';
+      }
+    }
+    evList.innerHTML = html;
+  } else {
+    evSec.style.display = 'none';
   }
 
-  // players は常に更新（タブ切替時に即反映）
-  document.getElementById('players-grid').innerHTML = (d.players || []).map(buildCard).join('');
+  // プレイヤーグリッド（両方のページ）
+  var cards = (d.players || []).map(buildCard).join('');
+  document.getElementById('home-grid').innerHTML    = cards;
+  document.getElementById('players-grid').innerHTML = cards;
+
+  // 最終更新
+  try {
+    var t = new Date(d.lastUpdated);
+    document.getElementById('last').textContent = '最終更新: ' + t.toLocaleString('ja-JP');
+  } catch(e) {}
 }
 
-// ===== プレイヤー詳細モーダル =====
-function showDetail(name) {
-  if (!data) return;
-  const p = data.players.find(pl => pl.name === name);
+function openModal(name) {
+  if (!gData) return;
+  var p = null;
+  for (var i = 0; i < gData.players.length; i++) {
+    if (gData.players[i].name === name) { p = gData.players[i]; break; }
+  }
   if (!p) return;
-
-  const st = playerStatus(p);
-  const statusColor = p.eliminated ? 'var(--muted)' : p.zombie ? 'var(--red)' : p.down ? 'var(--yellow)' : 'var(--green)';
-  const zkill = p.zombie ? p.zombiePlayerKills : p.zombieMobKills;
-
-  document.getElementById('modal-name').textContent = p.name;
-  document.getElementById('modal-status').textContent = st.label;
-  document.getElementById('modal-status').style.color = statusColor;
-  document.getElementById('md-kill').textContent  = p.kills;
-  document.getElementById('md-death').textContent = p.deaths;
-  document.getElementById('md-zkill').textContent = zkill;
-  document.getElementById('md-point').textContent = p.points;
-  document.getElementById('md-days').textContent  = p.survivedDays;
-  document.getElementById('md-notes').textContent = p.notes;
-
-  const dots = [0,1,2].map(i =>
-    '<div class="life-dot' + (i < p.respawn ? '' : ' off') + '"></div>'
-  ).join('');
-  document.getElementById('md-life').innerHTML = dots;
-
-  document.getElementById('modal-overlay').classList.add('show');
+  var s = pst(p);
+  document.getElementById('m-name').textContent  = p.name;
+  document.getElementById('m-status').textContent = s.label;
+  document.getElementById('m-status').style.color = s.color;
+  document.getElementById('m-kill').textContent   = p.kills;
+  document.getElementById('m-death').textContent  = p.deaths;
+  document.getElementById('m-zk').textContent     = p.zombie ? p.zombiePlayerKills : p.zombieMobKills;
+  document.getElementById('m-pt').textContent     = p.points;
+  document.getElementById('m-days').textContent   = p.survivedDays;
+  document.getElementById('m-notes').textContent  = p.notes;
+  var dots = '';
+  for (var i = 0; i < 3; i++) dots += '<div class="ld' + (i < p.respawn ? '' : ' off') + '"></div>';
+  document.getElementById('m-life').innerHTML = dots;
+  document.getElementById('overlay').className = 'show';
 }
 
 function closeModal(e) {
-  if (!e || e.target === document.getElementById('modal-overlay')) {
-    document.getElementById('modal-overlay').classList.remove('show');
+  if (!e || e.target === document.getElementById('overlay')) {
+    document.getElementById('overlay').className = '';
   }
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
-// ===== メインループ =====
 async function refresh() {
-  const d = await fetchData();
-  if (d) {
-    data = d;
-    renderStatusBar(d);
-    renderPage(d);
-    const t = new Date(d.lastUpdated);
-    document.getElementById('last-updated').textContent =
-      '最終更新: ' + t.toLocaleString('ja-JP');
-  }
+  try {
+    var url = 'https://raw.githubusercontent.com/kumakunna/hoperion/main/data/players.json?t=' + Date.now();
+    var res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) return;
+    var d = await res.json();
+    gData = d;
+    renderAll(d);
+  } catch(e) {}
 }
-
-// 初期ページ
-switchPage('home');
 
 refresh();
-setInterval(refresh, 30000); // 30秒ごとに更新
+setInterval(refresh, 30000);
 </script>
 </body>
 </html>
