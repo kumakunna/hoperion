@@ -281,17 +281,26 @@ footer{
 </header>
 
 <!-- ヒーロー -->
-<div class="hero" style="padding-top:56px;background-image:url('https://raw.githubusercontent.com/kumakunna/hoperion/main/Hoperion.png');background-size:cover;background-position:center;">
-  <!-- 四隅のテキスト -->
-  <div style="position:absolute;top:20px;left:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">MULTIPLAYER</div>
-  <div style="position:absolute;top:20px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">MINECRAFT</div>
-  <div style="position:absolute;top:20px;right:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">ZOMBIE SURVIVAL</div>
-  <div style="position:absolute;bottom:40px;left:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">50DAYS</div>
-  <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">KUMAKUNN PRESENTS</div>
-  <div style="position:absolute;bottom:40px;right:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#888;">THE LAST ONE</div>
-  <div class="hero-logo">HOPERION</div>
-  <div class="hero-sub">All for the sake of one promise.</div>
-  <div style="width:500px;height:1px;background:rgba(255,255,255,0.3);margin-top:16px;"></div>
+<!-- ヒーロー画像セクション -->
+<div style="margin-top:56px;position:relative;height:75vh;overflow:hidden;">
+  <!-- 背景画像 -->
+  <img src="https://raw.githubusercontent.com/kumakunna/hoperion/main/Hoperion.png"
+    style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:0.9;display:block;">
+  <!-- オーバーレイ -->
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.15);"></div>
+  <!-- 四隅テキスト -->
+  <div style="position:absolute;top:28px;left:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#999;">MULTIPLAYER</div>
+  <div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#999;">MINECRAFT</div>
+  <div style="position:absolute;top:28px;right:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#999;">ZOMBIE SURVIVAL</div>
+  <div style="position:absolute;bottom:28px;left:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#999;">50DAYS</div>
+  <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#999;">KUMAKUNN PRESENTS</div>
+  <div style="position:absolute;bottom:28px;right:40px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:4px;color:#999;">THE LAST ONE</div>
+  <!-- 中央テキスト -->
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(80px,12vw,160px);letter-spacing:8px;line-height:1;color:#fff;text-align:center;">HOPERION</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(16px,2vw,24px);letter-spacing:3px;color:#ccc;">All for the sake of one promise.</div>
+    <div style="width:min(500px,60%);height:1px;background:rgba(255,255,255,0.35);margin-top:4px;"></div>
+  </div>
 </div>
 
 <!-- ライブステータス -->
