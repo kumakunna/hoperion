@@ -432,6 +432,8 @@ function goto(page) {
     a.classList.toggle('active', ['home','players'][i] === page);
   });
   if (data) renderPage(data);
+  // ページ切替時にすぐデータ取得
+  else refresh();
 }
 
 // ===== データ取得 =====
@@ -553,9 +555,8 @@ function renderPage(d) {
     grid.innerHTML = d.players.map(buildCard).join('');
   }
 
-  if (currentPage === 'players') {
-    document.getElementById('players-grid').innerHTML = d.players.map(buildCard).join('');
-  }
+  // players は常に更新（タブ切替時に即反映）
+  document.getElementById('players-grid').innerHTML = (d.players || []).map(buildCard).join('');
 }
 
 // ===== プレイヤー詳細モーダル =====
@@ -612,7 +613,7 @@ const hash = location.hash.replace('#', '') || 'home';
 goto(hash === 'players' ? 'players' : 'home');
 
 refresh();
-setInterval(refresh, 60000); // 60秒ごとに更新
+setInterval(refresh, 30000); // 30秒ごとに更新
 </script>
 </body>
 </html>
