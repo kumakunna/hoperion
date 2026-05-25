@@ -299,8 +299,8 @@ footer {
 <header>
   <div class="logo">HOPERION</div>
   <nav>
-    <a href="javascript:void(0)" class="active" onclick="goto('home')">HOME</a>
-    <a href="javascript:void(0)" onclick="goto('players')">PLAYERS</a>
+    <a id="nav-home" href="javascript:void(0)" class="active" onclick="switchPage('home')">HOME</a>
+    <a id="nav-players" href="javascript:void(0)" onclick="switchPage('players')">PLAYERS</a>
   </nav>
 </header>
 
@@ -424,17 +424,21 @@ let data = null;
 let currentPage = 'home';
 
 // ===== ページ切替 =====
-function goto(page) {
+function switchPage(page) {
   currentPage = page;
   document.getElementById('page-home').style.display    = page === 'home'    ? '' : 'none';
   document.getElementById('page-players').style.display = page === 'players' ? '' : 'none';
-  document.querySelectorAll('nav a').forEach((a, i) => {
-    a.classList.toggle('active', ['home','players'][i] === page);
-  });
-  if (data) renderPage(data);
-  // ページ切替時にすぐデータ取得
-  else refresh();
+  document.getElementById('nav-home').className    = page === 'home'    ? 'active' : '';
+  document.getElementById('nav-players').className = page === 'players' ? 'active' : '';
+  if (data) {
+    document.getElementById('players-grid').innerHTML = (data.players || []).map(buildCard).join('');
+    renderPage(data);
+  } else {
+    refresh();
+  }
 }
+
+function goto(page) { switchPage(page); }
 
 // ===== データ取得 =====
 async function fetchData() {
@@ -608,9 +612,8 @@ async function refresh() {
   }
 }
 
-// ハッシュで初期ページ決定
-const hash = location.hash.replace('#', '') || 'home';
-goto(hash === 'players' ? 'players' : 'home');
+// 初期ページ
+switchPage('home');
 
 refresh();
 setInterval(refresh, 30000); // 30秒ごとに更新
