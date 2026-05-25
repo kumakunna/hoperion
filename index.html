@@ -4,215 +4,499 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HOPERION</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:     #0a0a0a;
-  --bg2:    #111;
-  --bg3:    #1a1a1a;
-  --border: #252525;
+  --bg:     #050505;
+  --bg2:    #0e0e0e;
+  --bg3:    #161616;
+  --border: #1e1e1e;
   --text:   #e8e8e8;
-  --muted:  #555;
+  --muted:  #888;
   --green:  #44ee88;
-  --red:    #ff4444;
+  --red:    #ee3344;
   --yellow: #ffcc44;
   --orange: #ff8844;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:var(--bg); color:var(--text); font-family:'Noto Sans JP',sans-serif; min-height:100vh; }
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Shippori Mincho',serif;line-height:1.8;overflow-x:hidden;}
 
-header {
-  position:sticky; top:0; z-index:100;
-  background:rgba(10,10,10,0.95);
-  border-bottom:1px solid var(--border);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 40px; height:64px;
+/* ===== ヘッダー ===== */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(5,5,5,0.96);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:56px;
+  backdrop-filter:blur(12px);
 }
-.logo { font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:4px; }
-nav { display:flex; gap:32px; }
-nav button {
-  background:none; border:none; color:var(--muted);
-  font-size:14px; letter-spacing:2px; font-weight:500;
-  cursor:pointer; transition:color 0.2s; font-family:'Noto Sans JP',sans-serif;
-  padding:4px 0;
+.h-logo{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:8px;color:#fff;font-weight:400;}
+.h-nav{display:flex;align-items:center;gap:8px;}
+.h-chip{
+  padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;
+  letter-spacing:1.5px;cursor:pointer;border:none;
+  font-family:'Noto Sans JP',sans-serif;transition:all 0.2s;
 }
-nav button:hover { color:#fff; }
-nav button.active { color:#fff; border-bottom:2px solid #fff; }
+.hc-online {background:rgba(68,238,136,0.15);border:1px solid rgba(68,238,136,0.4);color:var(--green);}
+.hc-offline{background:rgba(60,60,60,0.3);border:1px solid #2a2a2a;color:var(--muted);}
+.hc-day   {background:rgba(255,255,255,0.06);border:1px solid #2a2a2a;color:#aaa;}
+.hc-day.r {background:rgba(238,51,68,0.12);border-color:rgba(238,51,68,0.3);color:var(--red);}
+.hc-day.y {background:rgba(255,204,68,0.12);border-color:rgba(255,204,68,0.3);color:var(--yellow);}
+.hc-nav   {background:none;border:1px solid #2a2a2a;color:#888;}
+.hc-nav:hover{color:#fff;border-color:#444;}
+.hc-nav.active{color:#fff;border-color:#555;background:rgba(255,255,255,0.06);}
 
-#status-bar {
-  background:var(--bg2); border-bottom:1px solid var(--border);
-  padding:10px 40px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+/* ===== ヒーロー ===== */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:80px 24px 60px;
+  position:relative;overflow:hidden;
 }
-.chip {
-  padding:4px 12px; border-radius:20px;
-  font-size:13px; font-weight:700; letter-spacing:1px;
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 60%,rgba(68,238,136,0.03) 0%,transparent 70%);
+  pointer-events:none;
 }
-.chip-online  { background:rgba(68,238,136,0.12); border:1px solid rgba(68,238,136,0.4); color:var(--green); }
-.chip-offline { background:rgba(80,80,80,0.2); border:1px solid #333; color:var(--muted); }
-.chip-day     { background:rgba(255,255,255,0.05); border:1px solid #333; color:#fff; }
-.chip-day.r   { background:rgba(255,68,68,0.1); border-color:rgba(255,68,68,0.3); color:var(--red); }
-.chip-day.y   { background:rgba(255,204,68,0.1); border-color:rgba(255,204,68,0.3); color:var(--yellow); }
-.chip-pvp     { background:rgba(255,68,68,0.1); border:1px solid rgba(255,68,68,0.3); color:var(--red); }
-.chip-pvp.off { background:rgba(80,80,80,0.2); border-color:#333; color:var(--muted); }
-.chip-ev      { background:rgba(255,136,68,0.1); border:1px solid rgba(255,136,68,0.3); color:var(--orange); }
-.counts { margin-left:auto; font-size:13px; }
-.cs { color:var(--green); font-weight:700; }
-.cz { color:var(--red);   font-weight:700; }
-.cd { color:var(--muted); }
-
-main { max-width:1100px; margin:0 auto; padding:40px 24px; }
-
-/* ホーム */
-.hero { text-align:center; padding:70px 0 50px; border-bottom:1px solid var(--border); margin-bottom:40px; }
-.hero-logo {
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(80px,12vw,160px); letter-spacing:8px; line-height:1;
-  background:linear-gradient(135deg,#fff 40%,#666);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+.hero-logo{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:clamp(100px,16vw,200px);
+  letter-spacing:10px;line-height:0.9;
+  color:#fff;
+  text-shadow:0 0 80px rgba(255,255,255,0.05);
 }
-.hero-sub { margin-top:12px; color:var(--muted); font-size:14px; letter-spacing:4px; }
+.hero-sub{
+  margin-top:20px;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:300;
+  font-size:clamp(18px,2.5vw,26px);
+  color:#aaa;letter-spacing:3px;
+}
+.hero-scroll{
+  position:absolute;bottom:40px;
+  font-size:11px;letter-spacing:4px;color:#333;
+  animation:fadeup 2s infinite;
+}
+@keyframes fadeup{0%,100%{opacity:0.3;transform:translateY(4px);}50%{opacity:0.7;transform:translateY(0);}}
 
-.sec-title {
-  font-size:11px; letter-spacing:3px; color:var(--muted); font-weight:500;
-  margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border);
+/* ===== ライブステータス ===== */
+#live-stats{
+  background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:32px 40px;
+}
+.ls-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+.ls-item{background:var(--bg2);padding:24px 32px;text-align:center;}
+.ls-label{font-size:11px;letter-spacing:3px;color:var(--muted);margin-bottom:8px;}
+.ls-val{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:72px;line-height:1;color:#fff;}
+.ls-val.g{color:var(--green);}
+.ls-val.r{color:var(--red);}
+
+/* ===== イベントバナー ===== */
+#ev-banner{display:none;background:rgba(255,136,68,0.08);border-bottom:1px solid rgba(255,136,68,0.2);padding:10px 40px;text-align:center;}
+#ev-banner-text{font-size:14px;color:var(--orange);letter-spacing:2px;}
+
+/* ===== セクション共通 ===== */
+.section{padding:80px 40px;max-width:900px;margin:0 auto;}
+.section-sm{padding:60px 40px;max-width:900px;margin:0 auto;}
+.section-wide{padding:80px 40px;max-width:1100px;margin:0 auto;}
+
+.sec-eyebrow{font-size:12px;letter-spacing:4px;color:#999;margin-bottom:12px;}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:clamp(36px,6vw,72px);letter-spacing:4px;
+  color:#fff;line-height:1;margin-bottom:32px;
+}
+.sec-divider{width:40px;height:1px;background:#2a2a2a;margin-bottom:32px;}
+
+/* ===== アバウト ===== */
+.about-body{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(16px,1.8vw,20px);line-height:2.2;color:#bbb;
+  text-align:center;
+}
+.about-body p{margin-bottom:1.2em;}
+.about-em{color:#bbb;font-style:italic;}
+.about-tags{
+  margin-top:40px;display:flex;justify-content:space-between;
+  font-size:12px;letter-spacing:3px;color:#777;
 }
 
-.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:40px; }
-.stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:20px; }
-.stat-card h3 { font-size:11px; letter-spacing:2px; color:var(--muted); margin-bottom:8px; }
-.stat-card .n { font-family:'Bebas Neue',sans-serif; font-size:52px; line-height:1; }
-.n-w { color:#fff; }
-.n-g { color:var(--green); }
-.n-r { color:var(--red); }
-
-.ev-section { margin-bottom:40px; }
-.ev-list { display:flex; flex-direction:column; gap:6px; }
-.ev-row {
-  background:var(--bg2); border:1px solid var(--border); border-radius:3px;
-  padding:10px 16px; display:flex; justify-content:space-between; align-items:center;
+/* ===== セパレーターヒーロー ===== */
+.hero2{
+  padding:100px 24px;text-align:center;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:var(--bg2);
 }
-.ev-row.sp { border-left:3px solid var(--orange); }
-.ev-name { font-size:15px; font-weight:700; }
-.ev-name.sp { color:var(--orange); }
-.ev-time { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--yellow); }
+.hero2-logo{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(60px,10vw,120px);letter-spacing:8px;color:#fff;opacity:0.06;
+}
+.hero2-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(14px,2vw,18px);color:#333;letter-spacing:4px;margin-top:16px;
+}
+
+/* ===== オーバービュー ===== */
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.ov-block h3{
+  font-size:11px;letter-spacing:3px;color:var(--muted);
+  margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);
+}
+.ov-block p{font-size:15px;color:#aaa;line-height:1.8;}
+.ov-block p strong{color:#e0e0e0;}
+
+/* ===== ルールセクション ===== */
+.rule-section{padding:60px 0;border-bottom:1px solid var(--border);}
+.rule-section:last-child{border-bottom:none;}
+.rule-title{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:clamp(28px,4vw,48px);letter-spacing:4px;
+  color:#fff;margin-bottom:24px;
+}
+.rule-list{list-style:none;}
+.rule-list li{
+  padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:16px;color:#aaa;line-height:1.7;
+  display:flex;gap:12px;
+}
+.rule-list li::before{content:'—';color:#333;flex-shrink:0;}
+.rule-note{
+  margin-top:16px;font-size:12px;color:#444;letter-spacing:1px;
+}
+.rule-note a{color:#555;text-decoration:underline;}
+
+/* ===== 賞金 ===== */
+.prize-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}
+.prize-item{
+  background:var(--bg2);border:1px solid var(--border);border-radius:2px;
+  padding:16px 18px;
+}
+.prize-label{font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:1px;}
+.prize-val{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;
+  line-height:1;color:var(--yellow);
+}
+
+/* ===== プレイヤーセクション ===== */
+#player-section{padding:80px 40px;max-width:1100px;margin:0 auto;}
+.player-sec-title{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:clamp(36px,5vw,64px);letter-spacing:6px;
+  color:#fff;margin-bottom:8px;
+}
+.player-sec-sub{font-size:14px;letter-spacing:3px;color:#999;margin-bottom:32px;}
+
+/* タブ */
+.player-tabs{display:flex;gap:8px;margin-bottom:24px;}
+.ptab{
+  background:none;border:1px solid var(--border);color:var(--muted);
+  font-size:12px;letter-spacing:2px;padding:6px 16px;cursor:pointer;
+  font-family:'Shippori Mincho',serif;transition:all 0.2s;border-radius:2px;
+}
+.ptab:hover{color:#fff;border-color:#444;}
+.ptab.active{color:#fff;border-color:#555;background:rgba(255,255,255,0.05);}
 
 /* プレイヤーグリッド */
-.player-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
-.pc {
-  background:var(--bg2); border:1px solid var(--border); border-radius:4px;
-  padding:18px; cursor:pointer; transition:border-color 0.2s;
-  position:relative; overflow:hidden;
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
+.pc{
+  background:var(--bg2);border:1px solid var(--border);border-radius:2px;
+  padding:16px;cursor:pointer;transition:border-color 0.2s;
+  position:relative;overflow:hidden;
 }
-.pc::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
-.pc.alive::before   { background:var(--green); }
-.pc.zombie::before  { background:var(--red); }
-.pc.down::before    { background:var(--yellow); }
-.pc.dead::before    { background:#2a2a2a; }
-.pc:hover { border-color:#3a3a3a; }
+.pc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;}
+.pc.alive::before  {background:var(--green);}
+.pc.zombie::before {background:var(--red);}
+.pc.down::before   {background:var(--yellow);}
+.pc.dead::before   {background:#1e1e1e;}
+.pc:hover{border-color:#2a2a2a;}
 
-.pc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.badge { font-size:11px; font-weight:700; letter-spacing:2px; padding:3px 8px; border-radius:2px; }
-.b-alive  { background:rgba(68,238,136,0.15); color:var(--green); }
-.b-zombie { background:rgba(255,68,68,0.15);  color:var(--red); }
-.b-down   { background:rgba(255,204,68,0.15); color:var(--yellow); }
-.b-dead   { background:rgba(50,50,50,0.5);    color:var(--muted); }
-.online-dot { width:6px; height:6px; border-radius:50%; display:inline-block; margin-right:4px; }
-.on  { background:var(--green); }
-.off { background:var(--muted); }
+.pc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.badge{font-size:10px;font-weight:600;letter-spacing:2px;padding:2px 7px;border-radius:2px;font-family:'Shippori Mincho',serif;}
+.b-alive {background:rgba(68,238,136,0.12);color:var(--green);}
+.b-zombie{background:rgba(238,51,68,0.12); color:var(--red);}
+.b-down  {background:rgba(255,204,68,0.12);color:var(--yellow);}
+.b-dead  {background:rgba(40,40,40,0.5);   color:var(--muted);}
+.pc-online{font-size:10px;letter-spacing:1px;display:flex;align-items:center;gap:4px;}
+.dot{width:5px;height:5px;border-radius:50%;display:inline-block;}
+.dot.on{background:var(--green);}
+.dot.off{background:var(--muted);}
 
-.pc-name { font-weight:900; font-size:20px; margin-bottom:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.pc-name.dead { color:var(--muted); }
+.pc-name{font-weight:700;font-size:18px;margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pc-name.dead{color:var(--muted);}
 
-.pc-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:10px; }
-.ps { text-align:center; }
-.ps-l { font-size:10px; color:var(--muted); letter-spacing:1px; }
-.ps-v { font-family:'Bebas Neue',sans-serif; font-size:26px; line-height:1.1; }
+.pc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:10px;}
+.ps{text-align:center;background:rgba(255,255,255,0.02);padding:6px 4px;border-radius:2px;}
+.ps-l{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:2px;}
+.ps-v{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:26px;line-height:1;}
 
-.life-row { display:flex; gap:4px; }
-.ld     { width:8px; height:8px; border-radius:50%; background:var(--green); }
-.ld.off { background:#2a2a2a; }
+.life-row{display:flex;gap:3px;}
+.ld    {width:7px;height:7px;border-radius:50%;background:var(--green);}
+.ld.off{background:#1e1e1e;border:1px solid #2a2a2a;}
 
-/* モーダル */
-#overlay {
-  display:none; position:fixed; inset:0; z-index:200;
-  background:rgba(0,0,0,0.85); align-items:center; justify-content:center;
+/* ===== モーダル ===== */
+#overlay{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,0.9);align-items:center;justify-content:center;
 }
-#overlay.show { display:flex; }
-#modal {
-  background:var(--bg2); border:1px solid var(--border); border-radius:4px;
-  width:90%; max-width:520px; max-height:90vh; overflow-y:auto;
-  animation:fi 0.2s ease;
+#overlay.show{display:flex;}
+#modal{
+  background:var(--bg2);border:1px solid var(--border);border-radius:2px;
+  width:90%;max-width:500px;max-height:88vh;overflow-y:auto;
+  animation:mfi 0.18s ease;
 }
-@keyframes fi { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-.mh { display:flex; justify-content:space-between; align-items:flex-start; padding:24px 24px 0; }
-.mn { font-weight:900; font-size:36px; line-height:1; }
-.mc { background:none; border:none; color:var(--muted); font-size:22px; cursor:pointer; }
-.ms { padding:6px 24px 16px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:4px; }
-.mb { padding:0 24px 24px; }
-.ms-sec { margin-bottom:20px; }
-.ms-title { font-size:11px; letter-spacing:2px; color:var(--muted); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
-.ms-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.ms-item { background:var(--bg3); border-radius:3px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; }
-.ms-label { font-size:13px; color:var(--muted); }
-.ms-val { font-family:'Bebas Neue',sans-serif; font-size:26px; }
+@keyframes mfi{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.mh{display:flex;justify-content:space-between;align-items:flex-start;padding:24px 24px 0;}
+.mn{font-weight:600;font-size:32px;line-height:1;font-family:'Shippori Mincho',serif;}
+.mc{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px;}
+.ms{padding:6px 24px 18px;font-family:'Cormorant Garamond',serif;font-size:18px;letter-spacing:4px;font-style:italic;}
+.mb{padding:0 24px 24px;}
+.ms-sec{margin-bottom:20px;}
+.ms-title{font-size:10px;letter-spacing:3px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.ms-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.ms-i{background:var(--bg3);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-radius:2px;}
+.ms-lbl{font-size:12px;color:var(--muted);}
+.ms-v{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:26px;line-height:1;}
 
-#last { text-align:right; font-size:12px; color:var(--muted); padding:8px 40px; }
-footer { border-top:1px solid var(--border); padding:20px 40px; text-align:center; color:var(--muted); font-size:12px; letter-spacing:2px; }
+/* ===== フッター ===== */
+footer{
+  border-top:1px solid var(--border);
+  padding:32px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;color:#666;letter-spacing:2px;font-family:'Cormorant Garamond',serif;
+}
 </style>
 </head>
 <body>
 
+<!-- ヘッダー -->
 <header>
-  <div class="logo">HOPERION</div>
-  <nav>
-    <button id="btn-home"    class="active" onclick="showPage('home')">HOME</button>
-    <button id="btn-players" onclick="showPage('players')">PLAYERS</button>
-  </nav>
+  <div class="h-logo">HOPERION</div>
+  <div class="h-nav">
+    <span id="h-sv" class="h-chip hc-offline">○ OFFLINE</span>
+    <span id="h-day" class="h-chip hc-day">DAYS —</span>
+    <button class="h-chip hc-nav active" onclick="scrollTo2('about')">ABOUT</button>
+    <button class="h-chip hc-nav" onclick="scrollTo2('rules')">RULES</button>
+    <button class="h-chip hc-nav" onclick="scrollTo2('players')">PLAYERS</button>
+  </div>
 </header>
 
-<div id="status-bar">
-  <span id="chip-sv" class="chip chip-offline">○ OFFLINE</span>
-  <span id="chip-day" class="chip chip-day">DAY 1</span>
-  <span id="chip-pvp" class="chip chip-pvp">PVP ON</span>
-  <span id="chip-ev" class="chip chip-ev" style="display:none">⚡ EVENT</span>
-  <span class="counts">
-    <span class="cs" id="c-s">0</span> 生存　
-    <span class="cz" id="c-z">0</span> ゾンビ　
-    <span class="cd" id="c-d">0</span> 脱落
-  </span>
+<!-- ヒーロー -->
+<div class="hero" style="padding-top:56px;">
+  <div class="hero-logo">HOPERION</div>
+  <div class="hero-sub">All for the sake of one promise.</div>
+  <div class="hero-scroll">SCROLL ↓</div>
 </div>
 
-<!-- ホーム -->
-<main id="page-home">
-  <div class="hero">
-    <div class="hero-logo">HOPERION</div>
-    <div class="hero-sub">ZOMBIE SURVIVAL — 50 DAYS</div>
+<!-- ライブステータス -->
+<div id="live-stats">
+  <div class="ls-inner">
+    <div class="ls-item">
+      <div class="ls-label">CURRENT DAY</div>
+      <div class="ls-val" id="ls-day">0</div>
+    </div>
+    <div class="ls-item">
+      <div class="ls-label">SURVIVOR</div>
+      <div class="ls-val g" id="ls-sv">0</div>
+    </div>
+    <div class="ls-item">
+      <div class="ls-label">ZOMBIE</div>
+      <div class="ls-val r" id="ls-zb">0</div>
+    </div>
+  </div>
+</div>
+
+<!-- イベントバナー -->
+<div id="ev-banner">
+  <div id="ev-banner-text">⚡ EVENT ACTIVE</div>
+</div>
+
+<!-- アバウト -->
+<div id="about" class="section" style="text-align:center;padding-top:100px;">
+  <div class="sec-eyebrow">ABOUT</div>
+  <div class="sec-title">HOPERION<br><span style="font-size:0.5em;letter-spacing:2px;color:#555;">（ホペリオン）とは</span></div>
+  <div class="about-body">
+    <p class="about-em">All for the sake of one promise.<br>すべては、たった一つの約束のために。</p>
+    <p>感染が広まった都市に、あなたは辿り着く。</p>
+    <p>かつてそこは希望で満ちた場所だった。<br>今は、一人の研究者の心、朽ちてしまった廃墟。</p>
+    <p>撃つか、逃げるか、信じるか、裏切るか。<br>その選択が、あなたの命を決める。</p>
+    <p>生き残った最後の一人が、<br>この物語の「主人公」となる。</p>
+    <p style="margin-top:32px;font-size:16px;color:#bbb;letter-spacing:2px;">
+      HOPERION — Hope, and Oblivion.<br>
+      希望と忘却の、生き残れ。——そして、生き残れ。
+    </p>
+  </div>
+  <div class="about-tags">
+    <span>LAST FIGHT</span>
+    <span>ZOMBIE SURVIVAL</span>
+  </div>
+</div>
+
+<!-- 画像セクション（後で追加） -->
+<div id="image-section" style="display:none;width:100%;max-height:600px;overflow:hidden;">
+  <img id="hero-image" src="" alt="HOPERION" style="width:100%;object-fit:cover;opacity:0.85;">
+</div>
+
+<!-- セパレーターヒーロー -->
+<div class="hero2">
+  <div class="hero2-logo">HOPERION</div>
+  <div class="hero2-sub">All for the sake of one promise.</div>
+</div>
+
+<!-- オーバービュー -->
+<div id="rules" class="section" style="padding-top:100px;">
+  <div class="sec-eyebrow">KUMAKUNNA PRESENTS</div>
+  <div class="sec-title">OVERVIEW</div>
+  <div class="ov-grid" style="margin-bottom:48px;">
+    <div class="ov-block">
+      <h3>GAME</h3>
+      <p><strong>MINECRAFT</strong></p>
+    </div>
+    <div class="ov-block">
+      <h3>日程</h3>
+      <p><strong>2026 summer（予定）</strong></p>
+    </div>
   </div>
 
-  <div class="stats-row">
-    <div class="stat-card"><h3>CURRENT DAY</h3><div class="n n-w" id="h-day">—</div></div>
-    <div class="stat-card"><h3>SURVIVORS</h3><div class="n n-g" id="h-sv">—</div></div>
-    <div class="stat-card"><h3>ZOMBIES</h3><div class="n n-r" id="h-zb">—</div></div>
-    <div class="stat-card"><h3>ELIMINATED</h3><div class="n n-w" id="h-el">—</div></div>
+  <!-- ルールセクション群 -->
+  <div class="rule-section">
+    <div class="rule-title">プレイ時間</div>
+    <ul class="rule-list">
+      <li>セッション1回の時間は約8時間</li>
+    </ul>
+    <div style="margin-top:16px;">
+      <div class="ov-block" style="margin-bottom:16px;">
+        <h3>セッション方式</h3>
+        <p>セッション1〜5 +overtime</p>
+      </div>
+      <div class="ov-block">
+        <h3>サーバー</h3>
+        <p>専用サーバー（運営管理）<br>バージョン：Minecraft 1.20.1 / Forge</p>
+      </div>
+    </div>
+    <p class="rule-note">詳しい情報は <a href="https://discord.gg/pm9BCX">Discord サーバー</a> にて</p>
   </div>
 
-  <div id="ev-section" class="ev-section" style="display:none">
-    <div class="sec-title">ACTIVE EVENTS</div>
-    <div class="ev-list" id="ev-list"></div>
+  <div class="rule-section">
+    <div class="rule-title">参加方法</div>
+    <ul class="rule-list">
+      <li>Discordの公式サーバーへ参加</li>
+      <li>応募フォームに必要事項を記入</li>
+      <li>承認結果はDiscord DMにて通知</li>
+      <li>当選者にはModpack及び手順書を送付</li>
+    </ul>
   </div>
 
-  <div class="sec-title">PLAYERS</div>
-  <div class="player-grid" id="home-grid"></div>
-</main>
+  <div class="rule-section">
+    <div class="rule-title">参加条件</div>
+    <ul class="rule-list">
+      <li>中学生以上</li>
+      <li>Discordアカウントを持っていること</li>
+      <li>Minecraft Java Edition 1.20.1が使用できること</li>
+      <li>Modpackを導入できる環境があること</li>
+      <li>テストサーバーで動作確認ができること</li>
+      <li>配信・録画が許可していないMODの使用について同意できること</li>
+    </ul>
+    <p class="rule-note">詳細は <a href="https://discord.gg/pm9BCX">Discord サーバー</a> にて</p>
+  </div>
 
-<!-- プレイヤーリスト -->
-<main id="page-players" style="display:none">
-  <div class="sec-title" style="margin-bottom:24px">ALL PLAYERS</div>
-  <div class="player-grid" id="players-grid"></div>
-</main>
+  <div class="rule-section">
+    <div class="rule-title">復活ルール</div>
+    <ul class="rule-list">
+      <li>各プレイヤーは最大3回まで復活可能</li>
+      <li>4回目の死亡でゾンビモードへ</li>
+      <li>死亡から5日後に復活回数が自動回復</li>
+      <li>復活時の初期装備はハンドガン・弾薬120発・パン32個</li>
+      <li>計画書2枚と交換で復活回数を増やせる</li>
+    </ul>
+  </div>
 
-<div id="last">—</div>
-<footer>HOPERION · © 2026 kumakunna</footer>
+  <div class="rule-section">
+    <div class="rule-title">PvPルール</div>
+    <ul class="rule-list">
+      <li>企画開始から終了までPvPは常時許可</li>
+      <li>不意打ち・待ち伏せ・物資強奪すべて可</li>
+      <li>同盟・裏切り・交渉はすべて自由</li>
+      <li>サーバー停止30分前にPvP停止</li>
+      <li>サーバー起動30分後にPvP再開</li>
+    </ul>
+    <p class="rule-note">詳細はDiscordサーバーにて</p>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-title">禁止事項</div>
+    <ul class="rule-list">
+      <li>チート・外部ツールの使用</li>
+      <li>バグ・不具合の悪用</li>
+      <li>企画外での情報共有（ゴースティング）</li>
+      <li>当選者以外が許可していないMODの使用</li>
+      <li>意図的なサーバークラッシュの誘発</li>
+      <li>運営判断を無視した妨害行為</li>
+    </ul>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-title">ゾンビモード</div>
+    <ul class="rule-list">
+      <li>40日以前に脱落するとゾンビモードに</li>
+      <li>ゾンビモード中はゾンビに襲われなくなる</li>
+      <li>プレイヤーを倒すごとに報酬あり（3キルごとに100円）</li>
+    </ul>
+    <p class="rule-note">詳細は <a href="https://discord.gg/pm9BCX">Discord サーバー</a> にて</p>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-title">賞金事項</div>
+    <div class="prize-grid">
+      <div class="prize-item">
+        <div class="prize-label">優勝賞金（1名）</div>
+        <div class="prize-val">¥10,000</div>
+      </div>
+      <div class="prize-item">
+        <div class="prize-label">計画書ボーナス（最大）</div>
+        <div class="prize-val">¥7,000</div>
+      </div>
+      <div class="prize-item">
+        <div class="prize-label">ゾンビキルボーナス</div>
+        <div class="prize-val">3kill/¥100</div>
+      </div>
+      <div class="prize-item">
+        <div class="prize-label">最多キル</div>
+        <div class="prize-val">¥500</div>
+      </div>
+      <div class="prize-item">
+        <div class="prize-label">MVPプレイヤー予想的中</div>
+        <div class="prize-val">¥500</div>
+      </div>
+      <div class="prize-item">
+        <div class="prize-label">ラストサバイバーボーナス</div>
+        <div class="prize-val">¥500</div>
+      </div>
+    </div>
+    <p class="rule-note" style="margin-top:16px;">詳細はDiscordサーバーにて</p>
+  </div>
+</div>
+
+<!-- プレイヤーセクション -->
+<div id="players" style="border-top:1px solid var(--border);padding-top:0;">
+  <div id="player-section">
+    <div class="player-sec-title">PLAYER</div>
+    <div class="player-sec-sub" id="player-sub">— / — / —</div>
+    <div class="player-tabs">
+      <button class="ptab active" onclick="filterPlayers('all')">ALL</button>
+      <button class="ptab" onclick="filterPlayers('alive')">SURVIVOR</button>
+      <button class="ptab" onclick="filterPlayers('zombie')">ZOMBIE</button>
+      <button class="ptab" onclick="filterPlayers('dead')">ELIMINATED</button>
+    </div>
+    <div class="pgrid" id="pgrid"><div style="color:var(--muted);font-size:14px;letter-spacing:2px;">サーバーオフライン中 — 最後のデータを表示</div></div>
+  </div>
+</div>
+
+<div id="last" style="text-align:right;font-size:11px;color:#2a2a2a;padding:8px 40px 0;">—</div>
+
+<footer>
+  <span>HOPERION</span>
+  <span>© 2026 kumakunna. All Rights Reserved.</span>
+</footer>
 
 <!-- モーダル -->
 <div id="overlay" onclick="closeModal(event)">
@@ -221,23 +505,23 @@ footer { border-top:1px solid var(--border); padding:20px 40px; text-align:cente
       <div class="mn" id="m-name">—</div>
       <button class="mc" onclick="closeModal()">×</button>
     </div>
-    <div class="ms" id="m-status"></div>
+    <div class="ms" id="m-st" style="color:var(--green)">SURVIVOR</div>
     <div class="mb">
       <div class="ms-sec">
         <div class="ms-title">COMBAT</div>
-        <div class="ms-grid">
-          <div class="ms-item"><span class="ms-label">Kill</span><span class="ms-val" id="m-kill">—</span></div>
-          <div class="ms-item"><span class="ms-label">Death</span><span class="ms-val" id="m-death">—</span></div>
-          <div class="ms-item"><span class="ms-label">ZombieKill</span><span class="ms-val" id="m-zk">—</span></div>
-          <div class="ms-item"><span class="ms-label">Point</span><span class="ms-val" id="m-pt">—</span></div>
+        <div class="ms-g">
+          <div class="ms-i"><span class="ms-lbl">Kill</span><span class="ms-v" id="m-kill">—</span></div>
+          <div class="ms-i"><span class="ms-lbl">Death</span><span class="ms-v" id="m-death">—</span></div>
+          <div class="ms-i"><span class="ms-lbl">ZombieKill</span><span class="ms-v" id="m-zk">—</span></div>
+          <div class="ms-i"><span class="ms-lbl">Point</span><span class="ms-v" id="m-pt">—</span></div>
         </div>
       </div>
       <div class="ms-sec">
         <div class="ms-title">SURVIVAL</div>
-        <div class="ms-grid">
-          <div class="ms-item"><span class="ms-label">Days Survived</span><span class="ms-val" id="m-days">—</span></div>
-          <div class="ms-item"><span class="ms-label">Life</span><div class="life-row" id="m-life"></div></div>
-          <div class="ms-item"><span class="ms-label">Plan Notes</span><span class="ms-val" id="m-notes">—</span></div>
+        <div class="ms-g">
+          <div class="ms-i"><span class="ms-lbl">Days Survived</span><span class="ms-v" id="m-days">—</span></div>
+          <div class="ms-i"><span class="ms-lbl">Life</span><div class="life-row" id="m-life"></div></div>
+          <div class="ms-i"><span class="ms-lbl">Plan Notes</span><span class="ms-v" id="m-notes">—</span></div>
         </div>
       </div>
     </div>
@@ -246,111 +530,111 @@ footer { border-top:1px solid var(--border); padding:20px 40px; text-align:cente
 
 <script>
 var gData = null;
-var gPage = 'home';
+var gFilter = 'all';
 
-function showPage(p) {
-  gPage = p;
-  document.getElementById('page-home').style.display    = p === 'home'    ? '' : 'none';
-  document.getElementById('page-players').style.display = p === 'players' ? '' : 'none';
-  document.getElementById('btn-home').className    = p === 'home'    ? 'active' : '';
-  document.getElementById('btn-players').className = p === 'players' ? 'active' : '';
-  if (gData) renderAll(gData);
+function scrollTo2(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth'});
 }
 
 function pst(p) {
-  if (p.eliminated) return {cls:'dead',   badge:'b-dead',   label:'DEFEATED', color:'var(--muted)'};
-  if (p.zombie)     return {cls:'zombie', badge:'b-zombie', label:'ZOMBIE',   color:'var(--red)'};
-  if (p.down)       return {cls:'down',   badge:'b-down',   label:'DOWN',     color:'var(--yellow)'};
-  return                   {cls:'alive',  badge:'b-alive',  label:'SURVIVOR', color:'var(--green)'};
+  if (p.eliminated) return {cls:'dead',  badge:'b-dead',  label:'DEFEATED', color:'var(--muted)'};
+  if (p.zombie)     return {cls:'zombie',badge:'b-zombie',label:'ZOMBIE',   color:'var(--red)'};
+  if (p.down)       return {cls:'down',  badge:'b-down',  label:'DOWN',     color:'var(--yellow)'};
+  return                   {cls:'alive', badge:'b-alive', label:'SURVIVOR', color:'var(--green)'};
 }
 
 function buildCard(p) {
   var s = pst(p);
   var dots = '';
-  for (var i = 0; i < 3; i++) dots += '<div class="ld' + (i < p.respawn ? '' : ' off') + '"></div>';
-  var onColor = p.online ? 'var(--green)' : 'var(--muted)';
-  var onText  = p.online ? 'ONLINE' : 'offline';
-  var onCls   = p.online ? 'on' : 'off';
-  return '<div class="pc ' + s.cls + '" onclick="openModal(\'' + p.name.replace(/'/g, "\\'") + '\')">' +
-    '<div class="pc-top">' +
-      '<div class="badge ' + s.badge + '">' + s.label + '</div>' +
-      '<div style="font-size:11px;color:' + onColor + '"><span class="online-dot ' + onCls + '"></span>' + onText + '</div>' +
-    '</div>' +
-    '<div class="pc-name' + (p.eliminated ? ' dead' : '') + '">' + p.name + '</div>' +
-    '<div class="pc-stats">' +
-      '<div class="ps"><div class="ps-l">KILL</div><div class="ps-v">' + p.kills + '</div></div>' +
-      '<div class="ps"><div class="ps-l">DAYS</div><div class="ps-v">' + p.survivedDays + '</div></div>' +
-      '<div class="ps"><div class="ps-l">PT</div><div class="ps-v">' + p.points + '</div></div>' +
-    '</div>' +
-    '<div class="life-row">' + dots + '</div>' +
-  '</div>';
+  for (var i = 0; i < 3; i++) dots += '<div class="ld'+(i<p.respawn?'':' off')+'"></div>';
+  var onC = p.online ? 'var(--green)' : 'var(--muted)';
+  var onT = p.online ? 'ONLINE' : 'offline';
+  var onD = p.online ? 'on' : 'off';
+  return '<div class="pc '+s.cls+'" onclick="openModal(\''+p.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">'
+    +'<div class="pc-top">'
+      +'<div class="badge '+s.badge+'">'+s.label+'</div>'
+      +'<div class="pc-online" style="color:'+onC+'"><div class="dot '+onD+'"></div>'+onT+'</div>'
+    +'</div>'
+    +'<div class="pc-name'+(p.eliminated?' dead':'')+'">'+p.name+'</div>'
+    +'<div class="pc-stats">'
+      +'<div class="ps"><div class="ps-l">KILL</div><div class="ps-v">'+p.kills+'</div></div>'
+      +'<div class="ps"><div class="ps-l">DAYS</div><div class="ps-v">'+p.survivedDays+'</div></div>'
+      +'<div class="ps"><div class="ps-l">PT</div><div class="ps-v">'+p.points+'</div></div>'
+    +'</div>'
+    +'<div class="life-row">'+dots+'</div>'
+  +'</div>';
+}
+
+function filterPlayers(f) {
+  gFilter = f;
+  document.querySelectorAll('.ptab').forEach(function(b){
+    b.classList.toggle('active', b.textContent.toLowerCase().indexOf(f) >= 0 || (f==='all' && b.textContent==='ALL'));
+  });
+  if (gData) renderPlayers(gData);
+}
+
+function renderPlayers(d) {
+  var all = d.players || [];
+  var filtered;
+  if      (gFilter === 'alive')  filtered = all.filter(function(p){return !p.zombie&&!p.eliminated;});
+  else if (gFilter === 'zombie') filtered = all.filter(function(p){return p.zombie&&!p.eliminated;});
+  else if (gFilter === 'dead')   filtered = all.filter(function(p){return p.eliminated;});
+  else                           filtered = all;
+
+  var grid = document.getElementById('pgrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div style="color:var(--muted);font-size:14px;letter-spacing:2px;grid-column:1/-1;">該当するプレイヤーはいません</div>';
+  } else {
+    grid.innerHTML = filtered.map(buildCard).join('');
+  }
 }
 
 function renderAll(d) {
-  // ステータスバー
-  var sv = document.getElementById('chip-sv');
-  sv.textContent = d.serverOnline ? '● ONLINE' : '○ OFFLINE';
-  sv.className   = 'chip ' + (d.serverOnline ? 'chip-online' : 'chip-offline');
+  // ヘッダー
+  var svEl = document.getElementById('h-sv');
+  svEl.textContent = d.serverOnline ? '● ONLINE' : '○ OFFLINE';
+  svEl.className   = 'h-chip ' + (d.serverOnline ? 'hc-online' : 'hc-offline');
 
-  var dayEl = document.getElementById('chip-day');
+  var dayEl = document.getElementById('h-day');
   dayEl.textContent = 'DAY ' + d.day;
-  dayEl.className   = 'chip chip-day' + (d.day >= 25 ? ' y' : d.day >= 10 ? ' r' : '');
+  dayEl.className   = 'h-chip hc-day' + (d.day >= 25 ? ' y' : d.day >= 10 ? ' r' : '');
 
-  var pvpEl = document.getElementById('chip-pvp');
-  pvpEl.textContent = 'PVP ' + (d.pvpEnabled ? 'ON' : 'OFF');
-  pvpEl.className   = 'chip chip-pvp' + (d.pvpEnabled ? '' : ' off');
+  // ライブステータス
+  document.getElementById('ls-day').textContent = d.day;
+  document.getElementById('ls-sv').textContent  = d.survivorCount;
+  document.getElementById('ls-zb').textContent  = d.zombieCount;
 
+  // イベントバナー
   var hasEv = d.specialEvent || (d.events && d.events.length > 0);
-  var evChip = document.getElementById('chip-ev');
-  evChip.style.display = hasEv ? '' : 'none';
-  if (d.specialEvent) evChip.textContent = '⚡ ' + d.specialEvent;
-
-  document.getElementById('c-s').textContent = d.survivorCount;
-  document.getElementById('c-z').textContent = d.zombieCount;
-  document.getElementById('c-d').textContent = d.eliminatedCount;
-
-  // ホーム数字
-  document.getElementById('h-day').textContent = d.day;
-  document.getElementById('h-sv').textContent  = d.survivorCount;
-  document.getElementById('h-zb').textContent  = d.zombieCount;
-  document.getElementById('h-el').textContent  = d.eliminatedCount;
-
-  // イベントリスト
-  var evSec = document.getElementById('ev-section');
-  var evList = document.getElementById('ev-list');
+  var banner = document.getElementById('ev-banner');
   if (hasEv) {
-    evSec.style.display = '';
-    var html = '';
-    if (d.specialEvent) {
-      html += '<div class="ev-row sp"><span class="ev-name sp">⚡ ' + d.specialEvent + '</span><span class="ev-time">SPECIAL</span></div>';
-    }
-    if (d.events && d.events.length) {
+    banner.style.display = '';
+    var texts = [];
+    if (d.specialEvent) texts.push('⚡ ' + d.specialEvent);
+    if (d.events) {
       for (var i = 0; i < d.events.length; i++) {
         var ev = d.events[i];
-        var nm = ev.name || ev;
-        var sc = ev.remainingSec;
-        var tm = '';
-        if (typeof sc === 'number' && sc >= 0) {
-          tm = sc < 60 ? sc + 's' : Math.floor(sc/60) + 'm' + String(sc%60).padStart(2,'0') + 's';
-        }
-        html += '<div class="ev-row"><span class="ev-name">' + nm + '</span><span class="ev-time">' + tm + '</span></div>';
+        texts.push(typeof ev === 'string' ? ev : ev.name);
       }
     }
-    evList.innerHTML = html;
+    document.getElementById('ev-banner-text').textContent = texts.join('　/　');
   } else {
-    evSec.style.display = 'none';
+    banner.style.display = 'none';
   }
 
-  // プレイヤーグリッド（両方のページ）
-  var cards = (d.players || []).map(buildCard).join('');
-  document.getElementById('home-grid').innerHTML    = cards;
-  document.getElementById('players-grid').innerHTML = cards;
+  // プレイヤーサブタイトル
+  document.getElementById('player-sub').textContent =
+    '生存 ' + d.survivorCount + ' / ゾンビ ' + d.zombieCount + ' / 脱落 ' + d.eliminatedCount;
+
+  // プレイヤーグリッド
+  renderPlayers(d);
 
   // 最終更新
   try {
     var t = new Date(d.lastUpdated);
-    document.getElementById('last').textContent = '最終更新: ' + t.toLocaleString('ja-JP');
-  } catch(e) {}
+    document.getElementById('last').textContent = 'Last updated: ' + t.toLocaleString('ja-JP');
+  } catch(e){}
 }
 
 function openModal(name) {
@@ -362,16 +646,16 @@ function openModal(name) {
   if (!p) return;
   var s = pst(p);
   document.getElementById('m-name').textContent  = p.name;
-  document.getElementById('m-status').textContent = s.label;
-  document.getElementById('m-status').style.color = s.color;
-  document.getElementById('m-kill').textContent   = p.kills;
-  document.getElementById('m-death').textContent  = p.deaths;
-  document.getElementById('m-zk').textContent     = p.zombie ? p.zombiePlayerKills : p.zombieMobKills;
-  document.getElementById('m-pt').textContent     = p.points;
-  document.getElementById('m-days').textContent   = p.survivedDays;
-  document.getElementById('m-notes').textContent  = p.notes;
+  document.getElementById('m-st').textContent    = s.label;
+  document.getElementById('m-st').style.color    = s.color;
+  document.getElementById('m-kill').textContent  = p.kills;
+  document.getElementById('m-death').textContent = p.deaths;
+  document.getElementById('m-zk').textContent    = p.zombie ? p.zombiePlayerKills : p.zombieMobKills;
+  document.getElementById('m-pt').textContent    = p.points;
+  document.getElementById('m-days').textContent  = p.survivedDays;
+  document.getElementById('m-notes').textContent = p.notes;
   var dots = '';
-  for (var i = 0; i < 3; i++) dots += '<div class="ld' + (i < p.respawn ? '' : ' off') + '"></div>';
+  for (var i = 0; i < 3; i++) dots += '<div class="ld'+(i<p.respawn?'':' off')+'"></div>';
   document.getElementById('m-life').innerHTML = dots;
   document.getElementById('overlay').className = 'show';
 }
@@ -382,17 +666,17 @@ function closeModal(e) {
   }
 }
 
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
 
 async function refresh() {
   try {
     var url = 'https://raw.githubusercontent.com/kumakunna/hoperion/main/data/players.json?t=' + Date.now();
-    var res = await fetch(url, { cache: 'no-store' });
+    var res = await fetch(url, {cache:'no-store'});
     if (!res.ok) return;
     var d = await res.json();
     gData = d;
     renderAll(d);
-  } catch(e) {}
+  } catch(e){}
 }
 
 refresh();
