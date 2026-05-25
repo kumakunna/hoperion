@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOPERION</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0a0a0a;
+  --bg2:     #111;
+  --bg3:     #1a1a1a;
+  --border:  #252525;
+  --text:    #e8e8e8;
+  --muted:   #555;
+  --green:   #44ee88;
+  --red:     #ff4444;
+  --yellow:  #ffcc44;
+  --orange:  #ff8844;
+  --blue:    #4488ff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  min-height: 100vh;
+}
+
+/* ===== ヘッダー ===== */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,10,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+}
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; letter-spacing: 4px;
+  color: #fff;
+}
+nav { display: flex; gap: 32px; }
+nav a {
+  color: var(--muted); text-decoration: none;
+  font-size: 14px; letter-spacing: 2px; font-weight: 500;
+  transition: color 0.2s;
+}
+nav a:hover, nav a.active { color: #fff; }
+
+/* ===== ステータスバー ===== */
+#status-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 40px;
+  display: flex; align-items: center; gap: 24px;
+  font-size: 13px; flex-wrap: wrap;
+}
+.status-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: 20px;
+  font-weight: 700; font-size: 13px; letter-spacing: 1px;
+}
+.chip-online   { background: rgba(68,238,136,0.12); border: 1px solid rgba(68,238,136,0.4); color: var(--green); }
+.chip-offline  { background: rgba(80,80,80,0.2); border: 1px solid #333; color: var(--muted); }
+.chip-day      { background: rgba(255,204,68,0.1); border: 1px solid rgba(255,204,68,0.3); color: var(--yellow); }
+.chip-day.red  { background: rgba(255,68,68,0.1); border-color: rgba(255,68,68,0.3); color: var(--red); }
+.chip-pvp      { background: rgba(255,68,68,0.1); border: 1px solid rgba(255,68,68,0.3); color: var(--red); }
+.chip-pvp.off  { background: rgba(80,80,80,0.2); border-color: #333; color: var(--muted); }
+.chip-event    { background: rgba(255,136,68,0.1); border: 1px solid rgba(255,136,68,0.3); color: var(--orange); }
+.status-counts { margin-left: auto; color: var(--muted); font-size: 13px; }
+.s-alive  { color: var(--green); font-weight: 700; }
+.s-zombie { color: var(--red);   font-weight: 700; }
+.s-dead   { color: var(--muted); }
+
+/* ===== メインコンテンツ ===== */
+main { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+
+/* ===== ホーム ===== */
+#page-home {}
+
+.hero {
+  text-align: center; padding: 80px 0 60px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+}
+.hero-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 12vw, 160px);
+  letter-spacing: 8px; line-height: 1;
+  background: linear-gradient(135deg, #fff 40%, #888);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  margin-top: 16px; color: var(--muted);
+  font-size: 15px; letter-spacing: 4px; font-weight: 500;
+}
+
+.info-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px; margin-bottom: 48px;
+}
+.info-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 4px; padding: 24px;
+}
+.info-card h3 {
+  font-size: 12px; letter-spacing: 3px; color: var(--muted);
+  font-weight: 500; margin-bottom: 12px;
+}
+.info-card .val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px; line-height: 1;
+}
+.val-green  { color: var(--green); }
+.val-red    { color: var(--red); }
+.val-yellow { color: var(--yellow); }
+.val-white  { color: #fff; }
+
+.section-title {
+  font-size: 12px; letter-spacing: 3px; color: var(--muted);
+  font-weight: 500; margin-bottom: 16px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ===== プレイヤーリスト ===== */
+#page-players { display: none; }
+
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.player-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 4px; padding: 20px;
+  cursor: pointer; transition: border-color 0.2s, background 0.2s;
+  position: relative; overflow: hidden;
+}
+.player-card::before {
+  content: ''; position: absolute;
+  left: 0; top: 0; bottom: 0; width: 3px;
+}
+.player-card.alive::before   { background: var(--green); }
+.player-card.zombie::before  { background: var(--red); }
+.player-card.down::before    { background: var(--yellow); }
+.player-card.dead::before    { background: #2a2a2a; }
+
+.player-card:hover {
+  border-color: #3a3a3a; background: #161616;
+}
+
+.card-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px;
+}
+.card-badge {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  padding: 3px 8px; border-radius: 2px;
+}
+.badge-alive   { background: rgba(68,238,136,0.15); color: var(--green); }
+.badge-zombie  { background: rgba(255,68,68,0.15);  color: var(--red); }
+.badge-down    { background: rgba(255,204,68,0.15); color: var(--yellow); animation: blink 1s infinite; }
+.badge-dead    { background: rgba(50,50,50,0.5);    color: var(--muted); }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
+.card-online {
+  font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; gap: 4px;
+}
+.dot-on  { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.dot-off { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+
+.card-name {
+  font-weight: 900; font-size: 22px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 14px;
+}
+.card-name.dead { color: var(--muted); }
+
+.card-stats {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.stat-item { text-align: center; }
+.stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+.stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; line-height: 1.1;
+}
+
+.life-dots { display: flex; gap: 4px; justify-content: center; margin-top: 2px; }
+.life-dot     { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+.life-dot.off { background: #2a2a2a; }
+
+/* ===== 詳細モーダル ===== */
+#modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.85);
+  align-items: center; justify-content: center;
+}
+#modal-overlay.show { display: flex; }
+
+#modal {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 4px; width: 90%; max-width: 560px;
+  max-height: 90vh; overflow-y: auto;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 28px 28px 0;
+}
+.modal-name {
+  font-weight: 900; font-size: 40px; line-height: 1;
+}
+.modal-close {
+  background: none; border: none; color: var(--muted);
+  font-size: 24px; cursor: pointer; padding: 4px 8px;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: #fff; }
+
+.modal-status {
+  padding: 8px 28px 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 4px;
+}
+
+.modal-body { padding: 0 28px 28px; }
+
+.modal-section {
+  margin-bottom: 24px;
+}
+.modal-section-title {
+  font-size: 11px; letter-spacing: 3px; color: var(--muted);
+  font-weight: 500; margin-bottom: 12px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.modal-stat {
+  background: var(--bg3); border-radius: 3px;
+  padding: 12px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-stat-label { font-size: 13px; color: var(--muted); }
+.modal-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; line-height: 1;
+}
+
+/* ===== イベントリスト ===== */
+.event-list { display: flex; flex-direction: column; gap: 6px; }
+.event-item {
+  background: var(--bg3); border-radius: 3px;
+  padding: 10px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.event-name { font-size: 15px; font-weight: 700; }
+.event-time {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; color: var(--yellow);
+}
+.event-sp { color: var(--orange); border-left: 3px solid var(--orange); }
+
+/* ===== 更新時刻 ===== */
+#last-updated {
+  text-align: right; font-size: 12px; color: var(--muted);
+  padding: 8px 40px;
+}
+
+/* ===== オフライン ===== */
+.offline-banner {
+  background: rgba(80,80,80,0.1); border: 1px solid #2a2a2a;
+  border-radius: 4px; padding: 16px 24px; margin-bottom: 24px;
+  color: var(--muted); font-size: 14px; text-align: center;
+}
+
+/* ===== フッター ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 40px; text-align: center;
+  color: var(--muted); font-size: 12px; letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">HOPERION</div>
+  <nav>
+    <a href="#home" class="active" onclick="goto('home')">HOME</a>
+    <a href="#players" onclick="goto('players')">PLAYERS</a>
+  </nav>
+</header>
+
+<div id="status-bar">
+  <div id="chip-server" class="status-chip chip-offline">● OFFLINE</div>
+  <div id="chip-day"    class="status-chip chip-day">DAY 1</div>
+  <div id="chip-pvp"    class="status-chip chip-pvp">PVP ON</div>
+  <div id="chip-event"  class="status-chip chip-event" style="display:none">⚡ EVENT</div>
+  <div class="status-counts">
+    <span class="s-alive"  id="cnt-alive">0</span> 生存　
+    <span class="s-zombie" id="cnt-zombie">0</span> ゾンビ　
+    <span class="s-dead"   id="cnt-dead">0</span> 脱落
+  </div>
+</div>
+
+<main>
+  <!-- ホーム -->
+  <div id="page-home">
+    <div class="hero">
+      <div class="hero-logo">HOPERION</div>
+      <div class="hero-sub">ZOMBIE SURVIVAL — 50 DAYS</div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>CURRENT DAY</h3>
+        <div class="val val-white" id="home-day">—</div>
+      </div>
+      <div class="info-card">
+        <h3>SURVIVORS</h3>
+        <div class="val val-green" id="home-survivors">—</div>
+      </div>
+      <div class="info-card">
+        <h3>ZOMBIES</h3>
+        <div class="val val-red" id="home-zombies">—</div>
+      </div>
+      <div class="info-card">
+        <h3>ELIMINATED</h3>
+        <div class="val val-white" id="home-eliminated">—</div>
+      </div>
+    </div>
+
+    <div id="home-events-section" style="display:none; margin-bottom:48px;">
+      <div class="section-title">ACTIVE EVENTS</div>
+      <div class="event-list" id="home-event-list"></div>
+    </div>
+
+    <div>
+      <div class="section-title">PLAYERS</div>
+      <div class="player-grid" id="home-player-grid"></div>
+    </div>
+  </div>
+
+  <!-- プレイヤーリスト -->
+  <div id="page-players">
+    <div class="section-title" style="margin-bottom:24px;">ALL PLAYERS</div>
+    <div class="player-grid" id="players-grid"></div>
+  </div>
+</main>
+
+<div id="last-updated">—</div>
+
+<footer>
+  HOPERION &nbsp;·&nbsp; &copy; 2026 kumakunna
+</footer>
+
+<!-- 詳細モーダル -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal">
+    <div class="modal-header">
+      <div class="modal-name" id="modal-name">—</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-status" id="modal-status"></div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">COMBAT</div>
+        <div class="modal-grid">
+          <div class="modal-stat">
+            <span class="modal-stat-label">Kill</span>
+            <span class="modal-stat-val" id="md-kill">—</span>
+          </div>
+          <div class="modal-stat">
+            <span class="modal-stat-label">Death</span>
+            <span class="modal-stat-val" id="md-death">—</span>
+          </div>
+          <div class="modal-stat">
+            <span class="modal-stat-label">ZombieKill</span>
+            <span class="modal-stat-val" id="md-zkill">—</span>
+          </div>
+          <div class="modal-stat">
+            <span class="modal-stat-label">Point</span>
+            <span class="modal-stat-val" id="md-point">—</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">SURVIVAL</div>
+        <div class="modal-grid">
+          <div class="modal-stat">
+            <span class="modal-stat-label">Days Survived</span>
+            <span class="modal-stat-val" id="md-days">—</span>
+          </div>
+          <div class="modal-stat">
+            <span class="modal-stat-label">Life</span>
+            <div class="life-dots" id="md-life"></div>
+          </div>
+          <div class="modal-stat">
+            <span class="modal-stat-label">Plan Notes</span>
+            <span class="modal-stat-val" id="md-notes">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA_URL = 'https://raw.githubusercontent.com/kumakunna/hoperion/main/data/players.json';
+let data = null;
+let currentPage = 'home';
+
+// ===== ページ切替 =====
+function goto(page) {
+  currentPage = page;
+  document.getElementById('page-home').style.display    = page === 'home'    ? '' : 'none';
+  document.getElementById('page-players').style.display = page === 'players' ? '' : 'none';
+  document.querySelectorAll('nav a').forEach((a, i) => {
+    a.classList.toggle('active', ['home','players'][i] === page);
+  });
+  if (data) renderPage(data);
+}
+
+// ===== データ取得 =====
+async function fetchData() {
+  try {
+    const res = await fetch(DATA_URL + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch(e) { return null; }
+}
+
+// ===== ステータスバー =====
+function renderStatusBar(d) {
+  const serverEl = document.getElementById('chip-server');
+  if (d.serverOnline) {
+    serverEl.className = 'status-chip chip-online';
+    serverEl.textContent = '● ONLINE';
+  } else {
+    serverEl.className = 'status-chip chip-offline';
+    serverEl.textContent = '○ OFFLINE';
+  }
+
+  const dayEl = document.getElementById('chip-day');
+  dayEl.textContent = 'DAY ' + d.day;
+  dayEl.className = 'status-chip chip-day' + (d.day >= 10 ? ' red' : '');
+
+  const pvpEl = document.getElementById('chip-pvp');
+  pvpEl.textContent = 'PVP ' + (d.pvpEnabled ? 'ON' : 'OFF');
+  pvpEl.className = 'status-chip chip-pvp' + (d.pvpEnabled ? '' : ' off');
+
+  const evEl = document.getElementById('chip-event');
+  const hasEv = d.specialEvent || (d.events && d.events.length > 0);
+  evEl.style.display = hasEv ? '' : 'none';
+  if (d.specialEvent) evEl.textContent = '⚡ ' + d.specialEvent;
+
+  document.getElementById('cnt-alive').textContent   = d.survivorCount;
+  document.getElementById('cnt-zombie').textContent  = d.zombieCount;
+  document.getElementById('cnt-dead').textContent    = d.eliminatedCount;
+}
+
+// ===== プレイヤーカード生成 =====
+function playerStatus(p) {
+  if (p.eliminated) return { cls: 'dead',   badge: 'dead',   label: 'DEFEATED' };
+  if (p.zombie)     return { cls: 'zombie', badge: 'zombie', label: 'ZOMBIE' };
+  if (p.down)       return { cls: 'down',   badge: 'down',   label: 'DOWN' };
+  return              { cls: 'alive',  badge: 'alive',  label: 'SURVIVOR' };
+}
+
+function buildCard(p) {
+  const st = playerStatus(p);
+  const dots = [0,1,2].map(i =>
+    '<div class="life-dot' + (i < p.respawn ? '' : ' off') + '"></div>'
+  ).join('');
+  return `<div class="player-card ${st.cls}" onclick="showDetail('${p.name}')">
+    <div class="card-top">
+      <div class="card-badge badge-${st.badge}">${st.label}</div>
+      <div class="card-online">
+        <div class="${p.online ? 'dot-on' : 'dot-off'}"></div>
+        <span style="color:${p.online ? 'var(--green)' : 'var(--muted)'};font-size:11px">
+          ${p.online ? 'ONLINE' : 'offline'}
+        </span>
+      </div>
+    </div>
+    <div class="card-name ${p.eliminated ? 'dead' : ''}">${p.name}</div>
+    <div class="card-stats">
+      <div class="stat-item">
+        <div class="stat-label">KILL</div>
+        <div class="stat-val">${p.kills}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">DAYS</div>
+        <div class="stat-val">${p.survivedDays}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">PT</div>
+        <div class="stat-val">${p.points}</div>
+      </div>
+    </div>
+    <div class="life-dots" style="margin-top:12px;">${dots}</div>
+  </div>`;
+}
+
+// ===== イベントリスト =====
+function buildEventList(d) {
+  const items = [];
+  if (d.specialEvent) {
+    items.push(`<div class="event-item event-sp">
+      <span class="event-name">⚡ ${d.specialEvent}</span>
+      <span class="event-time">SPECIAL</span>
+    </div>`);
+  }
+  if (d.events) {
+    for (const e of d.events) {
+      const parts = e.split(' ');
+      const name = parts.slice(0, -1).join(' ') || e;
+      const time = parts.length > 1 ? parts[parts.length - 1] : '';
+      items.push(`<div class="event-item">
+        <span class="event-name">${name}</span>
+        <span class="event-time">${time}</span>
+      </div>`);
+    }
+  }
+  return items.join('');
+}
+
+// ===== ページ描画 =====
+function renderPage(d) {
+  if (currentPage === 'home') {
+    document.getElementById('home-day').textContent       = d.day;
+    document.getElementById('home-survivors').textContent = d.survivorCount;
+    document.getElementById('home-zombies').textContent   = d.zombieCount;
+    document.getElementById('home-eliminated').textContent= d.eliminatedCount;
+
+    const hasEv = d.specialEvent || (d.events && d.events.length > 0);
+    document.getElementById('home-events-section').style.display = hasEv ? '' : 'none';
+    if (hasEv) document.getElementById('home-event-list').innerHTML = buildEventList(d);
+
+    const grid = document.getElementById('home-player-grid');
+    grid.innerHTML = d.players.map(buildCard).join('');
+  }
+
+  if (currentPage === 'players') {
+    document.getElementById('players-grid').innerHTML = d.players.map(buildCard).join('');
+  }
+}
+
+// ===== プレイヤー詳細モーダル =====
+function showDetail(name) {
+  if (!data) return;
+  const p = data.players.find(pl => pl.name === name);
+  if (!p) return;
+
+  const st = playerStatus(p);
+  const statusColor = p.eliminated ? 'var(--muted)' : p.zombie ? 'var(--red)' : p.down ? 'var(--yellow)' : 'var(--green)';
+  const zkill = p.zombie ? p.zombiePlayerKills : p.zombieMobKills;
+
+  document.getElementById('modal-name').textContent = p.name;
+  document.getElementById('modal-status').textContent = st.label;
+  document.getElementById('modal-status').style.color = statusColor;
+  document.getElementById('md-kill').textContent  = p.kills;
+  document.getElementById('md-death').textContent = p.deaths;
+  document.getElementById('md-zkill').textContent = zkill;
+  document.getElementById('md-point').textContent = p.points;
+  document.getElementById('md-days').textContent  = p.survivedDays;
+  document.getElementById('md-notes').textContent = p.notes;
+
+  const dots = [0,1,2].map(i =>
+    '<div class="life-dot' + (i < p.respawn ? '' : ' off') + '"></div>'
+  ).join('');
+  document.getElementById('md-life').innerHTML = dots;
+
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('show');
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ===== メインループ =====
+async function refresh() {
+  const d = await fetchData();
+  if (d) {
+    data = d;
+    renderStatusBar(d);
+    renderPage(d);
+    const t = new Date(d.lastUpdated);
+    document.getElementById('last-updated').textContent =
+      '最終更新: ' + t.toLocaleString('ja-JP');
+  }
+}
+
+// ハッシュで初期ページ決定
+const hash = location.hash.replace('#', '') || 'home';
+goto(hash === 'players' ? 'players' : 'home');
+
+refresh();
+setInterval(refresh, 60000); // 60秒ごとに更新
+</script>
+</body>
+</html>
