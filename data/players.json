@@ -1,1 +1,15 @@
-{"lastUpdated":"2026-05-26T03:53:02.074581400Z","serverOnline":false,"day":5,"gameStarted":true,"gamePaused":false,"pvpEnabled":true,"specialEvent":"","events":[],"survivorCount":0,"zombieCount":0,"eliminatedCount":0,"downedPlayers":[],"players":[]}
+{
+  "lastUpdated": "2026-01-01T00:00:00Z",
+  "serverOnline": false,
+  "day": 0,
+  "gameStarted": false,
+  "gamePaused": false,
+  "pvpEnabled": true,
+  "specialEvent": "",
+  "events": [],
+  "survivorCount": 0,
+  "zombieCount": 0,
+  "eliminatedCount": 0,
+  "downedPlayers": [],
+  "players": []
+}
