@@ -1,1 +1,16 @@
-{"lastUpdated":"2026-06-02T06:49:12.475669700Z","serverOnline":false,"day":5,"gameStarted":true,"gamePaused":false,"pvpEnabled":true,"specialEvent":"","events":[],"survivorCount":1,"zombieCount":0,"eliminatedCount":0,"downedPlayers":[],"players":[{"name":"kumakunnda","online":false,"zombie":false,"eliminated":false,"down":false,"alive":true,"respawn":2,"kills":0,"deaths":9,"survivedDays":0,"points":35,"notes":0,"zombieMobKills":35,"zombiePlayerKills":0}]}
+{
+  "lastUpdated": "2026-01-01T00:00:00Z",
+  "serverOnline": false,
+  "day": 0,
+  "gameStarted": false,
+  "gamePaused": false,
+  "pvpEnabled": true,
+  "specialEvent": "",
+  "events": [],
+  "survivorCount": 3,
+  "zombieCount": 0,
+  "eliminatedCount": 0,
+  "downedPlayers": [],
+  "players": [
+  ]
+}
