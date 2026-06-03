@@ -264,6 +264,80 @@ footer{
   display:flex;justify-content:space-between;align-items:center;
   font-size:11px;color:#666;letter-spacing:2px;font-family:'Cormorant Garamond',serif;
 }
+
+/* ===== モバイル対応 ===== */
+@media (max-width: 768px) {
+  header {
+    padding: 0 16px;
+    height: 52px;
+  }
+  .h-logo { font-size: 18px; letter-spacing: 3px; }
+  .h-nav { gap: 4px; }
+  .h-chip { font-size: 10px; padding: 3px 8px; letter-spacing: 1px; }
+
+  /* ヒーロー */
+  [style*="height:75vh"] {
+    height: 60vw !important;
+    min-height: 280px;
+  }
+
+  /* ライブステータス */
+  #live-stats { padding: 0; }
+  .ls-inner { grid-template-columns: repeat(3,1fr); }
+  .ls-item { padding: 16px 8px; }
+  .ls-val { font-size: 48px; }
+  .ls-label { font-size: 10px; }
+
+  /* セクション */
+  .section, .section-sm, .section-wide, #player-section {
+    padding: 48px 16px !important;
+  }
+  .sec-title { font-size: clamp(28px,8vw,48px); }
+
+  /* アバウト */
+  .about-body { font-size: 15px; }
+  .about-tags { font-size: 10px; }
+
+  /* オーバービュー */
+  .ov-grid { grid-template-columns: 1fr; gap: 24px; }
+
+  /* 賞金グリッド */
+  .prize-grid { grid-template-columns: 1fr 1fr; }
+
+  /* プレイヤーグリッド */
+  .pgrid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pc { padding: 12px; }
+  .pc-name { font-size: 14px; }
+  .ps-v { font-size: 20px; }
+
+  /* SNSリンク */
+  [style*="display:flex;gap:16px;flex-wrap:wrap"] {
+    gap: 8px !important;
+  }
+
+  /* フッター */
+  footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 16px; }
+
+  /* モーダル */
+  #modal { width: 95%; }
+  .ms-g { grid-template-columns: 1fr; }
+
+  /* ルールリスト */
+  .rule-list li { font-size: 14px; }
+  .rule-title { font-size: clamp(22px,6vw,36px); }
+
+  /* ヘッダーナビ スマホでは一部非表示 */
+  .h-chip.hc-nav { display: none; }
+  /* ONLINEとDAYSは表示 */
+  #h-sv, #h-day { display: flex; }
+}
+
+@media (max-width: 480px) {
+  .pgrid { grid-template-columns: 1fr; }
+  .ls-val { font-size: 40px; }
+  .prize-grid { grid-template-columns: 1fr; }
+  .h-chip { font-size: 9px; padding: 2px 6px; }
+}
 </style>
 </head>
 <body>
