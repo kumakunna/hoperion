@@ -731,8 +731,9 @@ function renderAll(d) {
   svEl.className   = 'h-chip ' + (d.serverOnline ? 'hc-online' : 'hc-offline');
 
   var dayEl = document.getElementById('h-day');
-  dayEl.textContent = 'DAY ' + d.day;
-  dayEl.className   = 'h-chip hc-day' + (d.day >= 25 ? ' y' : d.day >= 10 ? ' r' : '');
+  var session = Math.min(5, Math.ceil(d.day / 10)) || 1;
+  dayEl.textContent = 'SESSION ' + session + '  |  DAY ' + d.day;
+  dayEl.className   = 'h-chip hc-day' + (d.day >= 40 ? ' r' : d.day >= 25 ? ' y' : '');
 
   // ライブステータス
   document.getElementById('ls-day').textContent = d.day;
